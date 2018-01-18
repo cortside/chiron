@@ -1,0 +1,17 @@
+// this is the main style css
+
+// variables
+//@import "variables";
+
+// mixins
+//@import "../lib/bootstrap/scss/mixins";
+//@import "mixins/breakpoints";
+
+// components
+@import "./global";
+@import "./layout";
+@import "./forms";
+@import "./search";
+@import "./notifications";
+
+@import "_login.scss";

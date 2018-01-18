@@ -1,0 +1,22 @@
+﻿{
+    "ConnectionStrings": {
+	"AuthConnString": "Server=.;Database=Chiron;User Id=sa;Password=1qaz2wsx;Trusted_Connection=False;MultipleActiveResultSets=true"
+    },
+    "defaultUrl" : "http://localhost/Chiron",
+    "ServiceBus": {
+        "Protocol": "amqps",
+        "Namespace": "Chiron-recruiter-stage.servicebus.windows.net",
+        "Policy": "SendListen",
+        "Key": "3q6LicPSwS0Jg10IHAquscXdpHKbJLa6coXsBmkvUc0=",
+        "AppName": "auth",
+        "Address": "auth.queue"
+    }
+    //"ServiceBus": {
+    //    "Protocol": "amqp",
+    //    "Namespace": "rabbitmq", //rabbitmqserver
+    //    "Policy": "admin",
+    //    "Key": "password",
+    //    "AppName": "auth",
+    //    "Address": "auth.queue"
+    //}
+}
