@@ -19,11 +19,4 @@ install:
   - docker version
 
 build_script:
-#
-- ps: >-
-    $Env:LABEL = "CI" + $Env:APPVEYOR_BUILD_NUMBER.PadLeft(5, "0");
-    $ENV:IMAGENAME = 'cortside/chiron-base'
-- ps: >-
-    cd chiron-base;
-    ./appveyor-build.ps1;
-    cd ..;
+- ps: ./build.ps1
