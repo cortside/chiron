@@ -25,7 +25,7 @@ Sample dockerfile:
 ```
 #!dockerfile
 
-FROM spring2/base-service
+FROM cortside/chiron-base
 
 COPY outputdir/ c:/www/
 

@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{61219453-ED80-4CC7-BEC6-781679E5300E}"
 EndProject
@@ -8,9 +8,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{67DD0020-6054-45C9-9E1F-09AC64B0636B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "c7.auth", "src\WebApi\c7.auth.csproj", "{D12F57F2-96BB-466D-9303-D837833A44D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chiron.Auth.WebApi", "src\WebApi\Chiron.Auth.WebApi.csproj", "{D8F76830-757F-4767-BDC3-748A58AB40F5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "c7.auth.tests", "test\c7.auth.tests\c7.auth.tests.csproj", "{3DC412AD-9234-44AA-BB41-FBC89F6910AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chiron.Auth.WebApi.Tests", "test\Chiron.Auth.WebApi.Tests\Chiron.Auth.WebApi.Tests.csproj", "{7C20C065-CBED-4D0F-9E82-34F68BBABC8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,20 +18,23 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D12F57F2-96BB-466D-9303-D837833A44D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D12F57F2-96BB-466D-9303-D837833A44D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D12F57F2-96BB-466D-9303-D837833A44D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D12F57F2-96BB-466D-9303-D837833A44D8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3DC412AD-9234-44AA-BB41-FBC89F6910AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3DC412AD-9234-44AA-BB41-FBC89F6910AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3DC412AD-9234-44AA-BB41-FBC89F6910AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3DC412AD-9234-44AA-BB41-FBC89F6910AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8F76830-757F-4767-BDC3-748A58AB40F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8F76830-757F-4767-BDC3-748A58AB40F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8F76830-757F-4767-BDC3-748A58AB40F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8F76830-757F-4767-BDC3-748A58AB40F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C20C065-CBED-4D0F-9E82-34F68BBABC8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C20C065-CBED-4D0F-9E82-34F68BBABC8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C20C065-CBED-4D0F-9E82-34F68BBABC8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C20C065-CBED-4D0F-9E82-34F68BBABC8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{D12F57F2-96BB-466D-9303-D837833A44D8} = {61219453-ED80-4CC7-BEC6-781679E5300E}
-		{3DC412AD-9234-44AA-BB41-FBC89F6910AF} = {67DD0020-6054-45C9-9E1F-09AC64B0636B}
+		{D8F76830-757F-4767-BDC3-748A58AB40F5} = {61219453-ED80-4CC7-BEC6-781679E5300E}
+		{7C20C065-CBED-4D0F-9E82-34F68BBABC8D} = {67DD0020-6054-45C9-9E1F-09AC64B0636B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8D2AA434-A5A9-4EBF-A047-87D95B49DE7A}
 	EndGlobalSection
 EndGlobal

@@ -1,14 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2020
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cortside.Chiron.Auth.WebApi", "auth\src\WebApi\Cortside.Chiron.Auth.WebApi.csproj", "{CDEB667A-8FFB-4116-9182-AD2D7E55FEA8}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7EE614C1-8938-4D82-8C5B-19800498BDF7}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		appveyor.yml = appveyor.yml
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chiron.Auth.WebApi", "auth\src\WebApi\Chiron.Auth.WebApi.csproj", "{C17EA6AB-5EE2-40DD-944A-B416D5CD4EF6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chiron.Auth.WebApi.Tests", "auth\test\Chiron.Auth.WebApi.Tests\Chiron.Auth.WebApi.Tests.csproj", "{2B3AF00F-6456-45A6-8266-42771700306E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,10 +19,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CDEB667A-8FFB-4116-9182-AD2D7E55FEA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CDEB667A-8FFB-4116-9182-AD2D7E55FEA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CDEB667A-8FFB-4116-9182-AD2D7E55FEA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CDEB667A-8FFB-4116-9182-AD2D7E55FEA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C17EA6AB-5EE2-40DD-944A-B416D5CD4EF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C17EA6AB-5EE2-40DD-944A-B416D5CD4EF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C17EA6AB-5EE2-40DD-944A-B416D5CD4EF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C17EA6AB-5EE2-40DD-944A-B416D5CD4EF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B3AF00F-6456-45A6-8266-42771700306E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B3AF00F-6456-45A6-8266-42771700306E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B3AF00F-6456-45A6-8266-42771700306E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B3AF00F-6456-45A6-8266-42771700306E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

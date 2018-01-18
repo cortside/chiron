@@ -2,5 +2,5 @@
     "ConnectionStrings": {
 	"AuthConnString": "Server=spc6v861uk.database.windows.net;Database=c7-auth;User Id=master;Password=!QAZ2wsx;Trusted_Connection=False;MultipleActiveResultSets=true"
     },
-    "defaultUrl": "http://docker01.spring2.net/c7"
+    "defaultUrl": "http://docker01.cortside.net/chiron"
 }

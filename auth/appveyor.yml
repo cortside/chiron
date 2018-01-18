@@ -19,7 +19,7 @@ environment:
 init:
 - ps: >-
     $Env:LABEL = "CI" + $Env:APPVEYOR_BUILD_NUMBER.PadLeft(5, "0");
-    $ENV:IMAGENAME = 'spring2/c7-auth'
+    $ENV:IMAGENAME = 'cortside/chiron-auth'
 
 install:
   - ps: docker login -u="$env:DOCKER_USER" -p="$env:DOCKER_PASS"
@@ -37,14 +37,14 @@ build:
 build_script: 
 - npm install -g bower
 - npm install -g node-sass
-- cd src/c7.auth/ & bower install
-- node-sass --output-style expanded src/c7.auth/wwwroot/styles/site.scss src/c7.auth/wwwroot/styles/site.css
-- node-sass --output-style compressed src/c7.auth/wwwroot/styles/site.scss src/c7.auth/wwwroot/styles/site.min.css
+- cd src/chiron.auth/ & bower install
+- node-sass --output-style expanded src/chiron.auth/wwwroot/styles/site.scss src/chiron.auth/wwwroot/styles/site.css
+- node-sass --output-style compressed src/chiron.auth/wwwroot/styles/site.scss src/chiron.auth/wwwroot/styles/site.min.css
 - ps: ./appveyor-build.ps1 $ENV:APPVEYOR_REPO_BRANCH $ENV:APPVEYOR_BUILD_VERSION $ENV:IMAGENAME
 
 
 after_build:
-- dotnet pack "src\C7.Auth" --no-build -o ..\..\artifacts
+- dotnet pack "src\chiron.Auth" --no-build -o ..\..\artifacts
 
 test_script:
 - ps: ./appveyor-test.ps1 $ENV:APPVEYOR_REPO_BRANCH $ENV:APPVEYOR_BUILD_VERSION $ENV:IMAGENAME
