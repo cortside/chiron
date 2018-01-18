@@ -19,4 +19,6 @@ install:
   - docker version
 
 build_script:
+- npm install -g bower
+- npm install -g node-sass
 - ps: ./build.ps1
