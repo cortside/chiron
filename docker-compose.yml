@@ -1,0 +1,53 @@
+version: '3.3'
+services: 
+  db:
+    image: cortside:chiron-db
+    ports:
+      - ":1433"
+    healthcheck:
+      test: [ "CMD", "sqlcmd", "-U", "sa", "-P", "Password1", "-Q", "select @@version" ]
+      interval: 1s
+      retries: 20
+
+
+  auth:  
+    image: cortside/chiron-auth
+    ports:
+      - "5000:5000"
+    depends-on:
+      - db
+
+networks:
+  default:
+    external:
+      name: nat
+      
+      
+
+# docker -H $dockerhost run --name $containerId -d -e SERVICE_NAME="$client-$service" -e SERVICE_TAGS=$envtype -e SERVICE="$client-$service" -e ENVTYPE=$envtype -e TAG=$envtype -P ${image}:$tag
+
+# RunContainer -service "auth" -envtype $envtype -instances 1 -image "spring2/c7-auth" -tag $tag -force:$force
+# RunContainer -service "adminapi" -envtype $envtype -instances 1 -image "spring2/c7-adminapi" -tag $tag -force:$force
+# RunContainer -service "admin" -envtype $envtype -instances 1 -image "spring2/c7-adminui" -tag $tag -force:$force
+# RunContainer -service "hiringmanager" -envtype $envtype -instances 1 -image "spring2/c7-hiringmanagerui" -tag $tag -force:$force
+# RunContainer -service "recruiter" -envtype $envtype -instances 1 -image "spring2/c7-recruiterui" -tag $tag -force:$force
+# RunContainer -service "recruiterregistrationapi" -envtype $envtype -instances 1 -image "spring2/c7-recruiterregistrationapi" -tag $tag -force:$force
+# RunContainer -service "hiringmanagerregistrationapi" -envtype $envtype -instances 1 -image "spring2/c7-hiringmanagerregistrationapi" -tag $tag -force:$force
+
+# # do last
+# Proxy
+	# docker -H $dockerhost run -d --restart=always `
+			# --name frontend-proxy `
+			# -e SERVICE_80_CHECK_INTERVAL=15s `
+			# -e SERVICE=frontend-proxy `
+			# -e ENVTYPE=master `
+			# -e SERVICE_80_ENVIRONMENT=master `
+			# -e SERVICE_80_CHECK_HTTP=/index.html `
+			# -e TAG=master `
+			# -e BUILD=9523 `
+			# -e SERVICE_80_TAGS=master `
+			# -e SERVICE_80_NAME=frontend-proxy `
+			# -e SERVICE_80_CHECK_TIMEOUT=3s `
+			# -e CONSUL=10.0.0.6:8500 `
+			# -p 80:80 `
+			# spring2/c6-consul-proxy:$build
