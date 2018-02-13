@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Chiron.Catalog.Query.Model Class Library</Description>
+    <Authors>cort</Authors>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Chiron.Catalog.Query.Model</AssemblyName>
+    <PackageId>Chiron.Catalog.Query.Model</PackageId>
+    <NetStandardImplicitPackageVersion>2.0.0</NetStandardImplicitPackageVersion>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
+  </ItemGroup>
+
+</Project>

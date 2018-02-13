@@ -1,28 +1,24 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Chiron.Auth.Data
-{
-    public class User
-    {
-	public int UserId { set; get; }
-	public string Username { set; get; }
-	public string Password { set; get; }
-	public string Salt { set; get; }
-	public string UserStatus { set; get; } //TODO: Want to map this to an enum some how. Need to look into this.
-	public DateTime EffectiveDate { set; get; }
-	public DateTime? ExpirationDate { set; get; }
-	public DateTime? LastLogin { set; get; }
-	public string LastLoginIPAddress { set; get; }
-	public DateTime TermsOfUseAcceptanceDate { get; set; }
+namespace Chiron.Auth.Data {
+    public class User {
+        public int UserId { set; get; }
+        public string Username { set; get; }
+        public string Password { set; get; }
+        public string Salt { set; get; }
+        public string UserStatus { set; get; } //TODO: Want to map this to an enum some how. Need to look into this.
+        public DateTime EffectiveDate { set; get; }
+        public DateTime? ExpirationDate { set; get; }
+        public DateTime? LastLogin { set; get; }
+        public string LastLoginIPAddress { set; get; }
+        public DateTime TermsOfUseAcceptanceDate { get; set; }
 
-	public int CreateUserId { set; get; }
-	public DateTime CreateDate { set; get; }
-	public int LastModifiedUserId { set; get; }
-	public DateTime LastModifiedDate { set; get; }
+        public int CreateUserId { set; get; }
+        public DateTime CreateDate { set; get; }
+        public int LastModifiedUserId { set; get; }
+        public DateTime LastModifiedDate { set; get; }
 
-	public ICollection<UserRole> UserRoles { get; set; } //This should be Roles, not UserRoles, but EFCore cannot handle this right now.
+        public ICollection<UserRole> UserRoles { get; set; } //This should be Roles, not UserRoles, but EFCore cannot handle this right now.
     }
 }

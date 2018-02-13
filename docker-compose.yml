@@ -1,53 +1,134 @@
 version: '3.3'
+
 services: 
-  db:
-    image: cortside:chiron-db
+  seq:
+    image: cortside/seq:latest
     ports:
-      - ":1433"
+      - "5342:5341"
+    labels:
+      - "traefik.backend=seq"
+      - "traefik.frontend.rule=Host:chiron.docker.local;PathPrefixStrip:/seq"      
+      - traefik.port=5341
+
+  db:
+    image: cortside/chiron-db:latest
+    environment:
+      - SA_PASSWORD=Password1
+    ports:
+      - "1433:1433"
     healthcheck:
       test: [ "CMD", "sqlcmd", "-U", "sa", "-P", "Password1", "-Q", "select @@version" ]
       interval: 1s
       retries: 20
+    labels:
+      - traefik.enable=false
 
-
+  rabbitmq:  
+    image: cortside/rabbitmq:latest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    labels:
+      - traefik.enable=false
+      
   auth:  
-    image: cortside/chiron-auth
+    image: cortside/chiron-auth:local
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "5000:5000"
-    depends-on:
+    depends_on:
       - db
+      - rabbitmq
+    links:
+      - db
+      - rabbitmq
+    labels:
+      - "traefik.backend=auth"
+      - "traefik.frontend.rule=Host:chiron.docker.local;PathPrefixStrip:/auth"      
+      - traefik.port=5000
 
+  customer-registration-api:  
+    image: cortside/chiron-customer-registration-api:local
+    ports:
+      - "5001:5001"
+    depends_on:
+      - auth
+      - db
+      - rabbitmq
+    links:
+      - auth
+      - db
+      - rabbitmq
+    labels:
+      - "traefik.backend=customer-registration-api"
+      - "traefik.frontend.rule=Host:chiron.docker.local;PathPrefixStrip:/customerregistrationapi"      
+      - traefik.port=5001
+     
+      
+  customerui:  
+    image: cortside/chiron-customerui:local
+    ports:
+      - "5002:80"
+    depends_on:
+      - auth
+      - customer-registration-api
+      - db
+      - rabbitmq
+    links:
+      - auth
+      - customer-registration-api
+      - db
+      - rabbitmq
+    labels:
+      - "traefik.backend=customerui"
+      - "traefik.frontend.rule=Host:chiron.docker.local;PathPrefixStrip:/customer"    
+      - traefik.port=80
+
+
+  adminapi:  
+    image: cortside/chiron-adminapi:local
+    environment:
+      - DEPLOYMENT=Development
+      - SERVICE=adminapi
+      - CONFIG=Local
+      - "EXTRA_HOST=10.10.220.100    chiron.docker.local"
+    ports:
+      - "5010:5000"
+    depends_on:
+      - auth
+    links:
+      - auth
+    labels:
+      - "traefik.backend=adminapi"
+      - "traefik.frontend.rule=Host:chiron.docker.local;PathPrefixStrip:/adminapi"      
+      - traefik.port=5000
+
+  adminui:  
+    image: cortside/chiron-adminui:local
+    ports:
+      - "5011:80"
+    depends_on:
+      - auth
+      - adminapi
+    links:
+      - auth
+      - adminapi
+    labels:
+      - "traefik.backend=adminui"
+      - "traefik.frontend.rule=Host:chiron.docker.local;PathPrefixStrip:/adminui"    
+      - traefik.port=80
+      
+  traefik:
+    image: stefanscherer/traefik-windows:v1.4.2
+    ports:
+      - "8000:80"
+      - "8080:8080"
+    command: "/traefik --docker.endpoint=tcp://172.17.160.1:2375 --debug=true --loglevel=DEBUG --docker.watch=true --web.address=:8080"
+    labels:
+      - traefik.enable=false
+      
 networks:
   default:
     external:
       name: nat
-      
-      
-
-# docker -H $dockerhost run --name $containerId -d -e SERVICE_NAME="$client-$service" -e SERVICE_TAGS=$envtype -e SERVICE="$client-$service" -e ENVTYPE=$envtype -e TAG=$envtype -P ${image}:$tag
-
-# RunContainer -service "auth" -envtype $envtype -instances 1 -image "spring2/c7-auth" -tag $tag -force:$force
-# RunContainer -service "adminapi" -envtype $envtype -instances 1 -image "spring2/c7-adminapi" -tag $tag -force:$force
-# RunContainer -service "admin" -envtype $envtype -instances 1 -image "spring2/c7-adminui" -tag $tag -force:$force
-# RunContainer -service "hiringmanager" -envtype $envtype -instances 1 -image "spring2/c7-hiringmanagerui" -tag $tag -force:$force
-# RunContainer -service "recruiter" -envtype $envtype -instances 1 -image "spring2/c7-recruiterui" -tag $tag -force:$force
-# RunContainer -service "recruiterregistrationapi" -envtype $envtype -instances 1 -image "spring2/c7-recruiterregistrationapi" -tag $tag -force:$force
-# RunContainer -service "hiringmanagerregistrationapi" -envtype $envtype -instances 1 -image "spring2/c7-hiringmanagerregistrationapi" -tag $tag -force:$force
-
-# # do last
-# Proxy
-	# docker -H $dockerhost run -d --restart=always `
-			# --name frontend-proxy `
-			# -e SERVICE_80_CHECK_INTERVAL=15s `
-			# -e SERVICE=frontend-proxy `
-			# -e ENVTYPE=master `
-			# -e SERVICE_80_ENVIRONMENT=master `
-			# -e SERVICE_80_CHECK_HTTP=/index.html `
-			# -e TAG=master `
-			# -e BUILD=9523 `
-			# -e SERVICE_80_TAGS=master `
-			# -e SERVICE_80_NAME=frontend-proxy `
-			# -e SERVICE_80_CHECK_TIMEOUT=3s `
-			# -e CONSUL=10.0.0.6:8500 `
-			# -p 80:80 `
-			# spring2/c6-consul-proxy:$build

@@ -1,13 +1,8 @@
-﻿using Chiron.Auth.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Chiron.Auth.Data;
 
-namespace Chiron.Auth.Services
-{
-    public interface IAuthenticator
-    {
-	Task<User> AuthenticateAsync(LoginInfo info);
+namespace Chiron.Auth.Services {
+    public interface IAuthenticator {
+        Task<User> AuthenticateAsync(LoginInfo info);
     }
 }

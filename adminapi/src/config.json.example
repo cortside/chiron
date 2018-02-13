@@ -1,0 +1,5 @@
+{
+    "SQL": {
+        "ConnectionString": "Server=tcp:spc6v861uk.database.windows.net,1433;Initial Catalog=c6-stage;Persist Security Info=False;User ID=master;Password=!QAZ2wsx;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+    },
+}

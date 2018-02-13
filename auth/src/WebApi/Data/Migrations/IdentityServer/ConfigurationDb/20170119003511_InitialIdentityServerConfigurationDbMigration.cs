@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Chiron.Auth.Data.Migrations.IdentityServer.ConfigurationDb
-{
-    public partial class InitialIdentityServerConfigurationDbMigration : Migration
-    {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
+namespace Chiron.Auth.Data.Migrations.IdentityServer.ConfigurationDb {
+    public partial class InitialIdentityServerConfigurationDbMigration : Migration {
+        protected override void Up(MigrationBuilder migrationBuilder) {
             migrationBuilder.CreateTable(
                 name: "ApiResources",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(maxLength: 1000, nullable: true),
@@ -20,15 +15,13 @@ namespace Chiron.Auth.Data.Migrations.IdentityServer.ConfigurationDb
                     Enabled = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(maxLength: 200, nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_ApiResources", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Clients",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AbsoluteRefreshTokenLifetime = table.Column<int>(nullable: false),
@@ -61,15 +54,13 @@ namespace Chiron.Auth.Data.Migrations.IdentityServer.ConfigurationDb
                     SlidingRefreshTokenLifetime = table.Column<int>(nullable: false),
                     UpdateAccessTokenClaimsOnRefresh = table.Column<bool>(nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Clients", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "IdentityResources",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(maxLength: 1000, nullable: true),
@@ -80,22 +71,19 @@ namespace Chiron.Auth.Data.Migrations.IdentityServer.ConfigurationDb
                     Required = table.Column<bool>(nullable: false),
                     ShowInDiscoveryDocument = table.Column<bool>(nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_IdentityResources", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "ApiClaims",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ApiResourceId = table.Column<int>(nullable: false),
                     Type = table.Column<string>(maxLength: 200, nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_ApiClaims", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ApiClaims_ApiResources_ApiResourceId",
@@ -107,8 +95,7 @@ namespace Chiron.Auth.Data.Migrations.IdentityServer.ConfigurationDb
 
             migrationBuilder.CreateTable(
                 name: "ApiScopes",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ApiResourceId = table.Column<int>(nullable: false),
@@ -119,8 +106,7 @@ namespace Chiron.Auth.Data.Migrations.IdentityServer.ConfigurationDb
                     Required = table.Column<bool>(nullable: false),
                     ShowInDiscoveryDocument = table.Column<bool>(nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_ApiScopes", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ApiScopes_ApiResources_ApiResourceId",
@@ -132,8 +118,7 @@ namespace Chiron.Auth.Data.Migrations.IdentityServer.ConfigurationDb
 
             migrationBuilder.CreateTable(
                 name: "ApiSecrets",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ApiResourceId = table.Column<int>(nullable: false),
@@ -142,8 +127,7 @@ namespace Chiron.Auth.Data.Migrations.IdentityServer.ConfigurationDb
                     Type = table.Column<string>(maxLength: 250, nullable: true),
                     Value = table.Column<string>(maxLength: 2000, nullable: true)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_ApiSecrets", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ApiSecrets_ApiResources_ApiResourceId",
@@ -155,16 +139,14 @@ namespace Chiron.Auth.Data.Migrations.IdentityServer.ConfigurationDb
 
             migrationBuilder.CreateTable(
                 name: "ClientClaims",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ClientId = table.Column<int>(nullable: false),
                     Type = table.Column<string>(maxLength: 250, nullable: false),
                     Value = table.Column<string>(maxLength: 250, nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_ClientClaims", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ClientClaims_Clients_ClientId",
@@ -176,15 +158,13 @@ namespace Chiron.Auth.Data.Migrations.IdentityServer.ConfigurationDb
 
             migrationBuilder.CreateTable(
                 name: "ClientCorsOrigins",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ClientId = table.Column<int>(nullable: false),
                     Origin = table.Column<string>(maxLength: 150, nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_ClientCorsOrigins", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ClientCorsOrigins_Clients_ClientId",
@@ -196,15 +176,13 @@ namespace Chiron.Auth.Data.Migrations.IdentityServer.ConfigurationDb
 
             migrationBuilder.CreateTable(
                 name: "ClientGrantTypes",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ClientId = table.Column<int>(nullable: false),
                     GrantType = table.Column<string>(maxLength: 250, nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_ClientGrantTypes", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ClientGrantTypes_Clients_ClientId",
@@ -216,15 +194,13 @@ namespace Chiron.Auth.Data.Migrations.IdentityServer.ConfigurationDb
 
             migrationBuilder.CreateTable(
                 name: "ClientIdPRestrictions",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ClientId = table.Column<int>(nullable: false),
                     Provider = table.Column<string>(maxLength: 200, nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_ClientIdPRestrictions", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ClientIdPRestrictions_Clients_ClientId",
@@ -236,15 +212,13 @@ namespace Chiron.Auth.Data.Migrations.IdentityServer.ConfigurationDb
 
             migrationBuilder.CreateTable(
                 name: "ClientPostLogoutRedirectUris",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ClientId = table.Column<int>(nullable: false),
                     PostLogoutRedirectUri = table.Column<string>(maxLength: 2000, nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_ClientPostLogoutRedirectUris", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ClientPostLogoutRedirectUris_Clients_ClientId",
@@ -256,15 +230,13 @@ namespace Chiron.Auth.Data.Migrations.IdentityServer.ConfigurationDb
 
             migrationBuilder.CreateTable(
                 name: "ClientRedirectUris",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ClientId = table.Column<int>(nullable: false),
                     RedirectUri = table.Column<string>(maxLength: 2000, nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_ClientRedirectUris", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ClientRedirectUris_Clients_ClientId",
@@ -276,15 +248,13 @@ namespace Chiron.Auth.Data.Migrations.IdentityServer.ConfigurationDb
 
             migrationBuilder.CreateTable(
                 name: "ClientScopes",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ClientId = table.Column<int>(nullable: false),
                     Scope = table.Column<string>(maxLength: 200, nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_ClientScopes", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ClientScopes_Clients_ClientId",
@@ -296,8 +266,7 @@ namespace Chiron.Auth.Data.Migrations.IdentityServer.ConfigurationDb
 
             migrationBuilder.CreateTable(
                 name: "ClientSecrets",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ClientId = table.Column<int>(nullable: false),
@@ -306,8 +275,7 @@ namespace Chiron.Auth.Data.Migrations.IdentityServer.ConfigurationDb
                     Type = table.Column<string>(maxLength: 250, nullable: true),
                     Value = table.Column<string>(maxLength: 2000, nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_ClientSecrets", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ClientSecrets_Clients_ClientId",
@@ -319,15 +287,13 @@ namespace Chiron.Auth.Data.Migrations.IdentityServer.ConfigurationDb
 
             migrationBuilder.CreateTable(
                 name: "IdentityClaims",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     IdentityResourceId = table.Column<int>(nullable: false),
                     Type = table.Column<string>(maxLength: 200, nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_IdentityClaims", x => x.Id);
                     table.ForeignKey(
                         name: "FK_IdentityClaims_IdentityResources_IdentityResourceId",
@@ -339,15 +305,13 @@ namespace Chiron.Auth.Data.Migrations.IdentityServer.ConfigurationDb
 
             migrationBuilder.CreateTable(
                 name: "ApiScopeClaims",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ApiScopeId = table.Column<int>(nullable: false),
                     Type = table.Column<string>(maxLength: 200, nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_ApiScopeClaims", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ApiScopeClaims_ApiScopes_ApiScopeId",
@@ -447,8 +411,7 @@ namespace Chiron.Auth.Data.Migrations.IdentityServer.ConfigurationDb
                 unique: true);
         }
 
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+        protected override void Down(MigrationBuilder migrationBuilder) {
             migrationBuilder.DropTable(
                 name: "ApiClaims");
 

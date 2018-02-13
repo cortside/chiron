@@ -1,0 +1,5 @@
+﻿{
+  "authUri": "http://chiron.docker.local:8000/auth/",
+  "appUri": "http://chiron.docker.local:8000/adminui/",
+  "apiUri": "http://chiron.docker.local:8000/adminapi/api/"
+}

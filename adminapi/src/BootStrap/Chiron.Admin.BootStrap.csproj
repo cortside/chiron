@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Chiron.Admin.BootStrap Class Library</Description>
+    <Authors>cort</Authors>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Chiron.Admin.BootStrap</AssemblyName>
+    <PackageId>Chiron.Admin.BootStrap</PackageId>
+
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Command.Data\Chiron.Admin.Command.Data.csproj" />
+    <ProjectReference Include="..\Command.Handler\Chiron.Admin.Command.Handler.csproj" />
+    <ProjectReference Include="..\Command\Chiron.Admin.Command.csproj" />
+    <ProjectReference Include="..\Configuration\Chiron.Admin.Configuration.csproj" />
+    <ProjectReference Include="..\Query.Handler\Chiron.Admin.Query.Handler.csproj" />
+    <ProjectReference Include="..\Query\Chiron.Admin.Query.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Serilog" Version="2.6.0" />
+    <PackageReference Include="Cortside.Common.BootStrap" Version="1.0.1" />
+    <PackageReference Include="Cortside.Common.Query" Version="1.0.1" />
+    <PackageReference Include="Cortside.Common.Command" Version="1.0.1" />
+    <PackageReference Include="Cortside.Common.IoC" Version="1.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.2" />
+  </ItemGroup>
+
+</Project>

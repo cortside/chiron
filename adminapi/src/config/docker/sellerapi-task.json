@@ -1,0 +1,124 @@
+{
+  "containerDefinitions": [
+    {
+      "volumesFrom": [],
+      "portMappings": [],
+            "entryPoint": [
+            ],
+            "command": [
+            ],
+      "environment": [
+        {
+          "name": "DEPLOYMENT",
+          "value": "::deployment::"
+        }
+      ],
+      "essential": true,
+            "links": [
+            ],
+      "mountPoints": [
+        {
+          "containerPath": "/mnt/ecs_instance_logs",
+          "sourceVolume": "ecs_instance_logs",
+          "readOnly": true
+        }
+      ],
+      "memory": 64,
+      "name": "cloudwatchlogs",
+      "cpu": 50,
+      "image": "liveauctioneers/ecs-cloudwatch-logs:27"
+    },
+    {
+      "volumesFrom": [],
+      "portMappings": [
+        {
+          "hostPort": 443,
+          "containerPort": 443,
+          "protocol": "tcp"
+        },
+        {
+          "hostPort": 8080,
+          "containerPort": 8080,
+          "protocol": "tcp"
+        },
+        {
+          "hostPort": 80,
+          "containerPort": 80,
+          "protocol": "tcp"
+        }
+      ],
+      "command": [],
+      "environment": [
+        {
+          "name": "APP",
+          "value": "::app::"
+        },        
+        {
+          "name": "BUILD",
+          "value": "::build::"
+        },        
+        {
+          "name": "DEPLOYMENT",
+          "value": "::deployment::"
+        },        
+        {
+          "name": "CONFIG",
+          "value": "::config::"
+        },        
+        {
+          "name": "IMAGE",
+          "value": "::image::"
+        },        
+	{
+          "name": "AWS_ACCESS_KEY_ID",
+          "value": "::AWS_ACCESS_KEY_ID::"
+        },
+        {
+          "name": "AWS_SECRET_ACCESS_KEY",
+          "value": "::AWS_SECRET_ACCESS_KEY::"
+        },
+        {
+          "name": "SLACK_TOKEN",
+          "value": "::SLACK_TOKEN::"
+        },
+        {
+          "name": "SERVICE_80_NAME",
+          "value": "::app::-::deployment::"
+        },
+        {
+          "name": "SERVICE_TAGS",
+          "value": "::app::,::deployment::"
+		},
+        {
+          "name": "SERVICE_80_CHECK_HTTP",
+          "value": "/api/status"
+        },
+		{
+		  "name": "SERVICE_80_CHECK_INTERVAL",
+		  "value": "15s"
+		},
+		{
+		  "name": "SERVICE_80_CHECK_TIMEOUT",
+		  "value": "1s"
+		}
+      ],
+      "essential": true,
+      "entryPoint": [],
+      "links": ["cloudwatchlogs"],
+      "mountPoints": [],
+      "memory": 3891,
+      "name": "::app::-::deployment::",
+      "cpu": 1998,
+      "image": "::image:::::build::"
+    }
+  ],
+  "volumes": [
+    {
+      "host": {
+        "sourcePath": "/var/log"
+      },
+      "name": "ecs_instance_logs"
+    }
+  ],
+  "family": "::app::-::deployment::"
+}

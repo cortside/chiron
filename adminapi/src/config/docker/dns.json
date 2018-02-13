@@ -1,0 +1,18 @@
+{
+  "Changes": [
+    {
+      "Action": "UPSERT",
+      "ResourceRecordSet": {
+        "Name": "::app::-::deployment::.liveauctioneers.com",
+        "Type": "CNAME",
+        "TTL": 60,
+        "ResourceRecords": [
+          {
+            "Value": "::elb_dns_name::"
+          }
+        ]
+      }
+    }
+  ]
+}
+

@@ -1,5 +1,4 @@
-﻿using Cortside.Common.DomainEvent;
-using System;
+﻿using System;
 
 namespace Chiron.Auth.EventHandlers {
     public class UserRegisteredEvent {

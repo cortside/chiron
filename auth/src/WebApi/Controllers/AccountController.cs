@@ -1,4 +1,6 @@
-﻿using Chiron.Auth.Models;
+﻿using System;
+using System.Threading.Tasks;
+using Chiron.Auth.Models;
 using Chiron.Auth.Services;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authentication;
@@ -6,8 +8,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
 
 namespace Chiron.Auth.Controllers {
     public class AccountController : Controller {
@@ -48,9 +48,14 @@ namespace Chiron.Auth.Controllers {
                     };
                 }
                 await HttpContext.SignInAsync(user.UserId.ToString(), user.Username, props);
-                logger.LogInformation($"Return URL: {model.ReturnUrl}");
-                if (idsService.IsValidReturnUrl(model.ReturnUrl)) {
-                    return Redirect(model.ReturnUrl);
+
+                var returnUrl = model.ReturnUrl;
+                logger.LogInformation($"Return URL: {returnUrl}");
+                if (idsService.IsValidReturnUrl(returnUrl)) {
+                    //if (!String.IsNullOrWhiteSpace(config["publicOrigin"])) {
+                    //    returnUrl = config["publicOrigin"] + model.ReturnUrl;
+                    //}
+                    return Redirect(returnUrl);
                 }
 
                 return Redirect(config["defaultUrl"]); //Return to 

@@ -1,10 +1,13 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2024
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{61219453-ED80-4CC7-BEC6-781679E5300E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0F4979FB-110E-4C9E-AD4C-2A6469893634}"
+	ProjectSection(SolutionItems) = preProject
+		..\.editorconfig = ..\.editorconfig
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{67DD0020-6054-45C9-9E1F-09AC64B0636B}"
 EndProject

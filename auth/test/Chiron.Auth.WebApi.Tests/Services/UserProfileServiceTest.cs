@@ -1,181 +1,161 @@
-﻿using Chiron.Auth.Data;
-using Chiron.Auth.Services;
-using IdentityServer4.Models;
-using Moq;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Chiron.Auth.Data;
+using Chiron.Auth.Services;
+using IdentityServer4.Models;
+using Moq;
 using Xunit;
 
-namespace Chiron.Auth.Tests.Services
-{
+namespace Chiron.Auth.Tests.Services {
 
-    public class UserProfileServiceTest : BaseTestFixture
-    {
-	UserProfileService target;
-	Mock<IUserDbContextFactory> ctxFactoryMock;
-	Mock<IUserDbContext> dbCtxMock;
+    public class UserProfileServiceTest : BaseTestFixture {
+        UserProfileService target;
+        Mock<IUserDbContextFactory> ctxFactoryMock;
+        Mock<IUserDbContext> dbCtxMock;
 
-	public UserProfileServiceTest()
-	{
-	    ctxFactoryMock = new Mock<IUserDbContextFactory>();
-	    dbCtxMock = new Mock<IUserDbContext>();
-	    ctxFactoryMock.Setup(x => x.NewUserDbContext()).Returns(dbCtxMock.Object);
+        public UserProfileServiceTest() {
+            ctxFactoryMock = new Mock<IUserDbContextFactory>();
+            dbCtxMock = new Mock<IUserDbContext>();
+            ctxFactoryMock.Setup(x => x.NewUserDbContext()).Returns(dbCtxMock.Object);
 
-	    target = new UserProfileService(ctxFactoryMock.Object);
-	}
-	
-	[Fact]
-	public async Task ShouldBeAbleToGetProfileDataAsync()
-	{
-	    //Arrange
-	    var user = CreateTestData<User>();
-	    var ctx = new ProfileDataRequestContext
-	    {
-		Subject = CreatePrincipal(user),
-		RequestedClaimTypes = new string[] { }
-	    };
-	    Arrange(() =>
-	    {
-		var usersMock = MockAsyncQueryable(user);
-		dbCtxMock.Setup(x => x.Users).Returns(usersMock.Object);
-		ArrangeUserLists(user);
-	    });
+            target = new UserProfileService(ctxFactoryMock.Object);
+        }
 
-	    //Act
-	    await target.GetProfileDataAsync(ctx);
+        [Fact]
+        public async Task ShouldBeAbleToGetProfileDataAsync() {
+            //Arrange
+            var user = CreateTestData<User>();
+            var ctx = new ProfileDataRequestContext {
+                Subject = CreatePrincipal(user),
+                RequestedClaimTypes = new string[] { }
+            };
+            Arrange(() => {
+                var usersMock = MockAsyncQueryable(user);
+                dbCtxMock.Setup(x => x.Users).Returns(usersMock.Object);
+                ArrangeUserLists(user);
+            });
 
-	    //Assert
-	    Assert.Equal(2, ctx.IssuedClaims.Count);
-	    Assert.Equal(user.UserId.ToString(), ctx.IssuedClaims.First(x => x.Type == "sub").Value);
-	    Assert.Equal(user.Username, ctx.IssuedClaims.First(x => x.Type == "name").Value);
-	}
+            //Act
+            await target.GetProfileDataAsync(ctx);
 
-	[Fact]
-	public async Task ShouldBeAbleToGetIsActiveAsync_Active()
-	{
-	    //Arrange
-	    var user = CreateTestData<User>();
-	    var ctx = new IsActiveContext(CreatePrincipal(user), new Client(), "asdf");
-	    Arrange(() =>
-	    {
-		user.UserStatus = "Active";
-		user.EffectiveDate = DateTime.UtcNow.AddDays(-1);
-		user.ExpirationDate = DateTime.UtcNow.AddDays(1);
+            //Assert
+            Assert.Equal(2, ctx.IssuedClaims.Count);
+            Assert.Equal(user.UserId.ToString(), ctx.IssuedClaims.First(x => x.Type == "sub").Value);
+            Assert.Equal(user.Username, ctx.IssuedClaims.First(x => x.Type == "name").Value);
+        }
 
-		var usersMock = MockAsyncQueryable(user);
-		dbCtxMock.Setup(x => x.Users).Returns(usersMock.Object);
-	    });
+        [Fact]
+        public async Task ShouldBeAbleToGetIsActiveAsync_Active() {
+            //Arrange
+            var user = CreateTestData<User>();
+            var ctx = new IsActiveContext(CreatePrincipal(user), new Client(), "asdf");
+            Arrange(() => {
+                user.UserStatus = "Active";
+                user.EffectiveDate = DateTime.UtcNow.AddDays(-1);
+                user.ExpirationDate = DateTime.UtcNow.AddDays(1);
 
-	    //Act
-	    await target.IsActiveAsync(ctx);
+                var usersMock = MockAsyncQueryable(user);
+                dbCtxMock.Setup(x => x.Users).Returns(usersMock.Object);
+            });
 
-	    //Assert
-	    Assert.True(ctx.IsActive);
-	}
+            //Act
+            await target.IsActiveAsync(ctx);
 
-	[Fact]
-	public async Task ShouldBeAbleToGetIsActiveAsync_Active_NoExpiration()
-	{
-	    //Arrange
-	    var user = CreateTestData<User>();
-	    var ctx = new IsActiveContext(CreatePrincipal(user), new Client(), "asdf");
-	    Arrange(() =>
-	    {
-		user.UserStatus = "Active";
-		user.EffectiveDate = DateTime.UtcNow.AddDays(-1);
-		user.ExpirationDate = null;
+            //Assert
+            Assert.True(ctx.IsActive);
+        }
 
-		var usersMock = MockAsyncQueryable(user);
-		dbCtxMock.Setup(x => x.Users).Returns(usersMock.Object);
-	    });
+        [Fact]
+        public async Task ShouldBeAbleToGetIsActiveAsync_Active_NoExpiration() {
+            //Arrange
+            var user = CreateTestData<User>();
+            var ctx = new IsActiveContext(CreatePrincipal(user), new Client(), "asdf");
+            Arrange(() => {
+                user.UserStatus = "Active";
+                user.EffectiveDate = DateTime.UtcNow.AddDays(-1);
+                user.ExpirationDate = null;
 
-	    //Act
-	    await target.IsActiveAsync(ctx);
+                var usersMock = MockAsyncQueryable(user);
+                dbCtxMock.Setup(x => x.Users).Returns(usersMock.Object);
+            });
 
-	    //Assert
-	    Assert.True(ctx.IsActive);
-	}
+            //Act
+            await target.IsActiveAsync(ctx);
 
-	[Fact]
-	public async Task ShouldBeAbleToGetIsActiveAsync_InActive()
-	{
-	    //Arrange
-	    var user = CreateTestData<User>();
-	    var ctx = new IsActiveContext(CreatePrincipal(user), new Client(), "asdf");
-	    Arrange(() =>
-	    {
-		user.UserStatus = "InActive";
-		user.EffectiveDate = DateTime.UtcNow.AddDays(-1);
-		user.ExpirationDate = DateTime.UtcNow.AddDays(1);
+            //Assert
+            Assert.True(ctx.IsActive);
+        }
 
-		var usersMock = MockAsyncQueryable(user);
-		dbCtxMock.Setup(x => x.Users).Returns(usersMock.Object);
-	    });
+        [Fact]
+        public async Task ShouldBeAbleToGetIsActiveAsync_InActive() {
+            //Arrange
+            var user = CreateTestData<User>();
+            var ctx = new IsActiveContext(CreatePrincipal(user), new Client(), "asdf");
+            Arrange(() => {
+                user.UserStatus = "InActive";
+                user.EffectiveDate = DateTime.UtcNow.AddDays(-1);
+                user.ExpirationDate = DateTime.UtcNow.AddDays(1);
 
-	    //Act
-	    await target.IsActiveAsync(ctx);
+                var usersMock = MockAsyncQueryable(user);
+                dbCtxMock.Setup(x => x.Users).Returns(usersMock.Object);
+            });
 
-	    //Assert
-	    Assert.False(ctx.IsActive);
-	}
+            //Act
+            await target.IsActiveAsync(ctx);
 
-	[Fact]
-	public async Task ShouldBeAbleToGetIsActiveAsync_InActive_NotEffective()
-	{
-	    //Arrange
-	    var user = CreateTestData<User>();
-	    var ctx = new IsActiveContext(CreatePrincipal(user), new Client(), "asdf");
-	    Arrange(() =>
-	    {
-		user.UserStatus = "Active";
-		user.EffectiveDate = DateTime.UtcNow.AddDays(1);
-		user.ExpirationDate = DateTime.UtcNow.AddDays(2);
+            //Assert
+            Assert.False(ctx.IsActive);
+        }
 
-		var usersMock = MockAsyncQueryable(user);
-		dbCtxMock.Setup(x => x.Users).Returns(usersMock.Object);
-	    });
+        [Fact]
+        public async Task ShouldBeAbleToGetIsActiveAsync_InActive_NotEffective() {
+            //Arrange
+            var user = CreateTestData<User>();
+            var ctx = new IsActiveContext(CreatePrincipal(user), new Client(), "asdf");
+            Arrange(() => {
+                user.UserStatus = "Active";
+                user.EffectiveDate = DateTime.UtcNow.AddDays(1);
+                user.ExpirationDate = DateTime.UtcNow.AddDays(2);
 
-	    //Act
-	    await target.IsActiveAsync(ctx);
+                var usersMock = MockAsyncQueryable(user);
+                dbCtxMock.Setup(x => x.Users).Returns(usersMock.Object);
+            });
 
-	    //Assert
-	    Assert.False(ctx.IsActive);
-	}
+            //Act
+            await target.IsActiveAsync(ctx);
 
-	[Fact]
-	public async Task ShouldBeAbleToGetIsActiveAsync_InActive_Expired()
-	{
-	    //Arrange
-	    var user = CreateTestData<User>();
-	    var ctx = new IsActiveContext(CreatePrincipal(user), new Client(), "asdf");
-	    Arrange(() =>
-	    {
-		user.UserStatus = "Active";
-		user.EffectiveDate = DateTime.UtcNow.AddDays(-2);
-		user.ExpirationDate = DateTime.UtcNow.AddDays(-1);
+            //Assert
+            Assert.False(ctx.IsActive);
+        }
 
-		var usersMock = MockAsyncQueryable(user);
-		dbCtxMock.Setup(x => x.Users).Returns(usersMock.Object);
-	    });
+        [Fact]
+        public async Task ShouldBeAbleToGetIsActiveAsync_InActive_Expired() {
+            //Arrange
+            var user = CreateTestData<User>();
+            var ctx = new IsActiveContext(CreatePrincipal(user), new Client(), "asdf");
+            Arrange(() => {
+                user.UserStatus = "Active";
+                user.EffectiveDate = DateTime.UtcNow.AddDays(-2);
+                user.ExpirationDate = DateTime.UtcNow.AddDays(-1);
 
-	    //Act
-	    await target.IsActiveAsync(ctx);
+                var usersMock = MockAsyncQueryable(user);
+                dbCtxMock.Setup(x => x.Users).Returns(usersMock.Object);
+            });
 
-	    //Assert
-	    Assert.False(ctx.IsActive);
-	}
+            //Act
+            await target.IsActiveAsync(ctx);
 
-	private ClaimsPrincipal CreatePrincipal(User user)
-	{
-	    return new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim("sub", user.UserId.ToString()) }));
-	}
+            //Assert
+            Assert.False(ctx.IsActive);
+        }
 
-	private void ArrangeUserLists(User user)
-	{
-	}
+        private ClaimsPrincipal CreatePrincipal(User user) {
+            return new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim("sub", user.UserId.ToString()) }));
+        }
+
+        private void ArrangeUserLists(User user) {
+        }
     }
 }

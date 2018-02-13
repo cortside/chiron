@@ -1,0 +1,5 @@
+{
+    "SQL": {
+        "ConnectionString": "Server=tcp:db;Initial Catalog=chiron;Persist Security Info=False;User ID=sa;Password=Password1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+    }
+}

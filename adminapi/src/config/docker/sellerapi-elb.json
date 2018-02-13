@@ -1,0 +1,38 @@
+{
+    "LoadBalancerName": "::app::-::deployment::",
+    "Listeners": [
+        {
+			"InstancePort": 80,
+                        "SSLCertificateId": "arn:aws:iam::667713386313:server-certificate/cloudfront/wild/LA_wildcard_certificate",
+                        "LoadBalancerPort": 443,
+                        "Protocol": "HTTPS",
+                        "InstanceProtocol": "HTTP"
+		},
+		{
+                        "InstancePort": 5000,
+                        "LoadBalancerPort": 5000,
+                        "Protocol": "HTTP",
+                        "InstanceProtocol": "HTTP"
+					},
+		{
+                        "InstancePort": 80,
+                        "LoadBalancerPort": 8000,
+                        "Protocol": "HTTP",
+                        "InstanceProtocol": "HTTP"
+					}
+					
+    ],
+    "Subnets": [
+                "subnet-110e603a",
+                "subnet-51e7c426",
+                "subnet-81e6b8d8",
+                "subnet-a064939d"
+            ],
+    "SecurityGroups": [
+                "sg-62448f05",
+                "sg-64Chirona703",
+                "sg-be458ed9",
+                "sg-8b458eec"
+            ],
+    "Scheme": "internet-facing"
+}

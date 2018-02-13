@@ -1,0 +1,19 @@
+<!-- BEGIN_TAIL -->
+<!-- the tail markers need to be the first and last lines in the file
+
+<!-- BEGIN BUILD INFO
+BUILD: <%= build %>
+REVISION: <%= revision %>
+DATE: <%= date %>
+COMPUTER: <%= computer %>
+USER: <%= user %>
+END BUILD INFO -->
+
+<div class="version">
+    <div class="normal">
+	<b>Current Build Version:</b>&nbsp;<%= buildId %>"><%= build %>(<%= target %>)<br/>
+	<b>Revision:</b>&nbsp;<%= revision %>"><%= shortRevision %><br/>
+	Build created on <% computer %> by <%= user %> on <%= date %><br/>
+    </div>
+</div>
+<!-- END_TAIL -->

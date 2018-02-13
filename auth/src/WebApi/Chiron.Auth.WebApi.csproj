@@ -24,11 +24,13 @@
 	<PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.0.1" />
 	<PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.0.1" />
 	<PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.1" />
+	<PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.0" />
 	<PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.0.0" />
 	<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
 	<PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0" />
 	<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.0" />
 	<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
+	<PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.2" />
 	<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.0" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.5" />
@@ -38,7 +40,11 @@
 	<PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.2" />
 	<PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.0.1" />
 	<PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.1" />
+	<PackageReference Include="Serilog" Version="2.6.0" />
+	<PackageReference Include="Serilog.AspNetCore" Version="2.1.0" />
 	<PackageReference Include="Serilog.Extensions.Logging.File" Version="1.1.0" />
+	<PackageReference Include="Serilog.Settings.Configuration" Version="2.4.0" />
+	<PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
     </ItemGroup>
 
     <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
@@ -53,6 +59,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Logs\" />
       <Folder Include="wwwroot\scripts\" />
     </ItemGroup>
 

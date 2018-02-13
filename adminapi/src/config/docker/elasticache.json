@@ -1,0 +1,16 @@
+{
+    "CacheClusterId": "prod", 
+    "PreferredAvailabilityZone": "us-east-1a", 
+    "NumCacheNodes": 3, 
+    "CacheNodeType": "cache.m3.medium", 
+    "Engine": "memcached", 
+    "EngineVersion": "1.4.5", 
+    "CacheSubnetGroupName": "ec2-vpc", 
+    "SecurityGroupIds": [
+        "sg-62448f05",
+	"sg-8b458eec"
+    ], 
+    "PreferredMaintenanceWindow": "", 
+    "Port": 11211, 
+    "AutoMinorVersionUpgrade": true 
+}

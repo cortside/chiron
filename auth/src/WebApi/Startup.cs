@@ -1,21 +1,24 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using Chiron.Auth.Data;
+using Chiron.Auth.EventHandlers;
+using Chiron.Auth.Services;
+using Cortside.Common.DomainEvent;
+using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.Reflection;
-using Microsoft.EntityFrameworkCore;
-using Chiron.Auth.Data;
-using IdentityServer4.EntityFramework.DbContexts;
-using Cortside.Common.DomainEvent;
-using Chiron.Auth.Services;
-using Chiron.Auth.EventHandlers;
-using IdentityServer4;
+using Microsoft.Extensions.Primitives;
 
-namespace Chiron.Auth {
+namespace Chiron.Auth.WebApi {
     public class Startup {
         public Startup(IHostingEnvironment env) {
             var builder = new ConfigurationBuilder()
@@ -74,8 +77,8 @@ namespace Chiron.Auth {
 
         private IDictionary<string, Type> RegisterMessageTypes() {
             return new Dictionary<string, Type> {
-                { "Chiron.Registration.Recruiter.Event.RecruiterRegisteredEvent", typeof(UserRegisteredEvent) },
-                { "Chiron.Registration.HiringManager.Event.HiringManagerRegisteredEvent", typeof(UserRegisteredEvent) }
+                { "Chiron.Registration.Customer.Event.CustomerRegisteredEvent", typeof(UserRegisteredEvent) },
+                { "Chiron.Registration.Clerk.Event.ClerkRegisteredEvent", typeof(UserRegisteredEvent) }
             };
         }
 
@@ -85,8 +88,31 @@ namespace Chiron.Auth {
             var authConnString = Configuration.GetConnectionString("AuthConnString");
             services.AddDbContext<UserDbContext>(o => o.UseSqlServer(authConnString), ServiceLifetime.Transient);
             services.AddTransient<IUserDbContext>(x => x.GetRequiredService<UserDbContext>());
-            services.AddIdentityServer()
-                .AddDeveloperSigningCredential() //TODO: DO NOT USE THIS FOR PRODUCTION; USE A CERT!
+
+            string publicOrigin = null;
+            if (!String.IsNullOrWhiteSpace(Configuration["publicOrigin"])) {
+                publicOrigin = Configuration["publicOrigin"];
+            }
+
+            string issuerUri = null;
+            if (!String.IsNullOrWhiteSpace(Configuration["issuerUri"])) {
+                issuerUri = Configuration["issuerUri"];
+            }
+
+            IIdentityServerBuilder idsBuilder;
+            if (!String.IsNullOrWhiteSpace(publicOrigin)) {
+                idsBuilder = services.AddIdentityServer(options => {
+                    options.PublicOrigin = publicOrigin;
+                });
+            } else if (!String.IsNullOrWhiteSpace(issuerUri)) {
+                idsBuilder = services.AddIdentityServer(options => {
+                    options.IssuerUri = issuerUri;
+                });
+            } else {
+                idsBuilder = services.AddIdentityServer();
+            }
+
+            idsBuilder.AddDeveloperSigningCredential() //TODO: DO NOT USE THIS FOR PRODUCTION; USE A CERT!
                 .AddConfigurationStore(options => {
                     options.DefaultSchema = "auth";
                     options.ConfigureDbContext = builder =>
@@ -108,11 +134,16 @@ namespace Chiron.Auth {
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory) {
+            var logger = loggerFactory.CreateLogger<Startup>();
             //InitializeDatabase(app);
 
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddFile("Logs/{Date}.txt");
-            loggerFactory.AddDebug();
+            //var serilog = new LoggerConfiguration()
+            //            .MinimumLevel.Verbose()
+            //            .Enrich.FromLogContext()
+            //            .WriteTo.File(@"identityserver4_log.log");
+
+            //serilog.WriteTo.Console(outputTemplate: "[{Timestamp:o} {Level}] {SourceContext} - {Message}{NewLine}{Exception}{NewLine}");
+
 
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
@@ -120,6 +151,26 @@ namespace Chiron.Auth {
             } else {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            // to handle x-forwarded-prefix header when backend is mapped to virtual path on frontend
+            app.Use((context, next) => {
+                var prefix = context.Request.Headers["x-forwarded-prefix"];
+                if (!StringValues.IsNullOrEmpty(prefix)) {
+                    logger.LogInformation($"X-Forwarded-Prefix={prefix}, Path={context.Request.Path}");
+                    context.Request.PathBase = PathString.FromUriComponent(prefix.ToString());
+                    // TODO: subtract PathBase from Path if needed.
+                }
+                return next();
+            });
+
+            // to handle x-forwarded-* headers
+            var fordwardedHeaderOptions = new ForwardedHeadersOptions {
+                ForwardedHeaders = ForwardedHeaders.XForwardedHost | ForwardedHeaders.XForwardedProto
+            };
+            fordwardedHeaderOptions.KnownNetworks.Clear();
+            fordwardedHeaderOptions.KnownProxies.Clear();
+
+            app.UseForwardedHeaders(fordwardedHeaderOptions);
 
             app
                 .UseStaticFiles()
@@ -136,6 +187,36 @@ namespace Chiron.Auth {
         }
 
         private void InitializeDatabase(IApplicationBuilder app) {
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope()) {
+                serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+                serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>().Database.Migrate();
+
+                var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
+                context.Database.Migrate();
+                if (!context.Clients.Any()) {
+                    foreach (var client in Config.GetClients()) {
+                        context.Clients.Add(client.ToEntity());
+                    }
+                    context.SaveChanges();
+                }
+
+                if (!context.IdentityResources.Any()) {
+                    foreach (var resource in Config.GetIdentityResources()) {
+                        context.IdentityResources.Add(resource.ToEntity());
+                    }
+                    context.SaveChanges();
+                }
+
+                if (!context.ApiResources.Any()) {
+                    foreach (var resource in Config.GetApiResources()) {
+                        context.ApiResources.Add(resource.ToEntity());
+                    }
+                    context.SaveChanges();
+                }
+            }
+        }
+
+        private void MigrateDatabase(IApplicationBuilder app) {
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope()) {
                 serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
                 serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>().Database.Migrate();

@@ -1,0 +1,21 @@
+#!/bin/bash
+# Install the AWS CLI
+yum update -y
+yum install -y aws-cli
+
+# Specify the cluster that the container instance should register into
+cluster=::cluster::
+
+#Copy docker config data from s3
+aws s3 cp s3://la-config/ecs.config /etc/ecs/ecs.config
+
+## clear off data from the AMI that may have existed for a different cluster
+rm /var/lib/ecs/data/*
+
+# Write the cluster configuration variable to the ecs.config file
+# (add any other configuration variables here also)
+printf %"s\n" ECS_CLUSTER=$cluster >> /etc/ecs/ecs.config
+
+aws s3 cp s3://la-config/ecsInstanceStartup.sh .
+chmod 755 ecsInstanceStartup.sh
+./ecsInstanceStartup.sh --cluster $cluster --new-relic=n

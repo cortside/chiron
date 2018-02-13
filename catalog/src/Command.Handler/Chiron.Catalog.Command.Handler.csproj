@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Chiron.Catalog.Command.Handler Class Library</Description>
+    <Authors>cort</Authors>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Chiron.Catalog.Command.Handler</AssemblyName>
+    <PackageId>Chiron.Catalog.Command.Handler</PackageId>
+    <NetStandardImplicitPackageVersion>2.0.0</NetStandardImplicitPackageVersion>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Command.Data\Chiron.Catalog.Command.Data.csproj" />
+    <ProjectReference Include="..\Command.Model\Chiron.Catalog.Command.Model.csproj" />
+    <ProjectReference Include="..\Command\Chiron.Catalog.Command.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+    <PackageReference Include="Serilog" Version="2.5.0" />
+    <PackageReference Include="Cortside.Common.Command" Version="1.0.1" />
+  </ItemGroup>
+
+</Project>

@@ -1,24 +1,63 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+using Chiron.Auth.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Serilog;
 
-namespace Chiron.Auth
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            var host = new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
-                .UseStartup<Startup>()
-                .Build();
+namespace Chiron.Auth.WebApi {
 
-            host.Run();
+    public class Program {
+        /// <summary>
+        /// Load logging configuration for the app
+        /// </summary>
+        public static IConfiguration Configuration { get; } = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", optional: true)
+            .AddJsonFile("config.json", false, true)
+            .AddJsonFile("build.json", false, true)
+            .AddEnvironmentVariables()
+            .Build();
+
+        /// <summary>
+        /// Startup method
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static int Main(string[] args) {
+            var config = Configuration;
+            var build = Configuration.GetSection("Build").Get<Build>();
+
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(config)
+                .Enrich.FromLogContext()
+                .Enrich.WithProperty("service", System.Reflection.Assembly.GetEntryAssembly().FullName)
+                .Enrich.WithProperty("build-version", build.Version)
+                .Enrich.WithProperty("build-tag", build.Tag)
+                .CreateLogger();
+
+
+            try {
+                Log.Information("Starting web host");
+
+                var host = new WebHostBuilder()
+                    .UseKestrel()
+                    .UseIISIntegration()
+                    .UseContentRoot(Directory.GetCurrentDirectory())
+                    .UseConfiguration(config)
+                    .UseStartup<Startup>()
+                    .UseSerilog()
+                    .Build();
+
+                host.Run();
+                return 0;
+            } catch (Exception ex) {
+                Log.Fatal(ex, "Host terminated unexpectedly");
+                return 1;
+            } finally {
+                Log.CloseAndFlush();
+            }
         }
     }
 }

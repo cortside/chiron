@@ -1,12 +1,10 @@
-﻿using Chiron.Auth.Data;
-using Chiron.Auth.Services;
-using Microsoft.Extensions.Logging;
-using Cortside.Common.DomainEvent;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
+using Chiron.Auth.Data;
+using Cortside.Common.DomainEvent;
+using Microsoft.Extensions.Logging;
 
 namespace Chiron.Auth.EventHandlers {
     public class UserRegisteredHandler : IDomainEventHandler<UserRegisteredEvent> {

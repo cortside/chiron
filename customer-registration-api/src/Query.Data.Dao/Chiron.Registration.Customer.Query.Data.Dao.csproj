@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Chiron.Registration.Customer.Query.Data.Dao Class Library</Description>
+    <Authors>cort</Authors>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Chiron.Registration.Customer.Query.Data.Dao</AssemblyName>
+    <PackageId>Chiron.Registration.Customer.Query.Data.Dao</PackageId>
+    <NetStandardImplicitPackageVersion>2.0.1</NetStandardImplicitPackageVersion>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Query.Data\Chiron.Registration.Customer.Query.Data.csproj" />
+    <ProjectReference Include="..\Query.Model\Chiron.Registration.Customer.Query.Model.csproj" />
+    <ProjectReference Include="..\Query\Chiron.Registration.Customer.Query.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="1.50.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+    <PackageReference Include="Serilog" Version="2.6.0" />
+    <PackageReference Include="Cortside.Common.Data.Exceptions" Version="1.0.1" />
+    <PackageReference Include="Cortside.Common.IoC" Version="1.0.1" />
+  </ItemGroup>
+
+</Project>

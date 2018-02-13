@@ -1,0 +1,107 @@
+{
+	"info": {
+		"name": "Chiron",
+		"_postman_id": "2628d763-5cc2-86b8-1599-be2f4b98df1b",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "TOKEN - client_credentials",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic Y2xpZW50OnNlY3JldA=="
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text",
+							"description": ""
+						},
+						{
+							"key": "scope",
+							"value": "api1",
+							"type": "text",
+							"description": ""
+						}
+					]
+				},
+				"url": {
+					"raw": "http://chiron.enerbank.testcontainers:5000/connect/token",
+					"protocol": "http",
+					"host": [
+						"chiron",
+						"enerbank",
+						"testcontainers"
+					],
+					"port": "5000",
+					"path": [
+						"connect",
+						"token"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "TOKEN - password",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text",
+							"description": ""
+						},
+						{
+							"key": "username",
+							"value": "ro",
+							"type": "text",
+							"description": ""
+						},
+						{
+							"key": "scope",
+							"value": "api1",
+							"type": "text",
+							"description": ""
+						},
+						{
+							"key": "password",
+							"value": "secret",
+							"type": "text",
+							"description": ""
+						}
+					]
+				},
+				"url": {
+					"raw": "http://chiron.enerbank.testcontainers:5000/connect/token",
+					"protocol": "http",
+					"host": [
+						"chiron",
+						"enerbank",
+						"testcontainers"
+					],
+					"port": "5000",
+					"path": [
+						"connect",
+						"token"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

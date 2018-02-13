@@ -1,0 +1,47 @@
+## https://www.appveyor.com/docs/appveyor-yml/
+
+image: Visual Studio 2017
+
+version: 1.0.{build}
+
+environment:
+  DOCKER_USER: victors2
+  DOCKER_PASS:
+    secure: kgpRGG5woa2ZoXDFtIF+8w==  
+
+init:
+- ps: >-
+    $Env:LABEL = "CI" + $Env:APPVEYOR_BUILD_NUMBER.PadLeft(5, "0");
+    $ENV:IMAGENAME = 'spring2/c7-adminui'
+    
+build:
+  verbosity: minimal
+  
+install:
+- ps: docker login -u="$env:DOCKER_USER" -p="$env:DOCKER_PASS"
+- docker version
+- ps: Install-Product node 6.9.5
+- npm -g install npm@3.10.7
+- node --version
+- npm --version
+- npm install -g @angular/cli
+- ng version
+- npm install
+  
+build_script:
+- ng build --prod --base-href /admin/
+- ps: ./appveyor-build.ps1
+
+after_build:
+
+test_script:
+
+
+artifacts:
+- path: dist\**\*.*
+
+#cache:
+#- '%USERPROFILE%\.nuget\packages'
+  
+nuget:
+  account_feed: true

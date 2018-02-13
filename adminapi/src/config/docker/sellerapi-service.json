@@ -1,0 +1,10 @@
+{
+    "cluster": "::cluster::", 
+    "serviceName": "::app::-::deployment::", 
+    "taskDefinition": "::app::-::deployment::", 
+    "loadBalancers": [ 
+				{ "containerName": "::app::-::deployment::", "containerPort": 80, "loadBalancerName": "::app::-::deployment::"} 
+	], 
+    "role": "ecsServiceRole",
+    "desiredCount": ::desired_count::
+}

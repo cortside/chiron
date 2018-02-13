@@ -1,0 +1,15 @@
+{
+  "name": "mainhost",
+  "version": "0.1.0",
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-cli": "~0.1.13",
+    "grunt-contrib-nodeunit": "~0.4.1",
+    "grunt-jsbeautifier": "~0.2.10",
+    "grunt-phpcbf": "^0.1.0",
+    "nodeunit": "~0.9.1",
+    "nodeunit-httpclient": "https://codeload.github.com/josephshull/nodeunit-httpclient/tar.gz/master",
+    "should": "^7.1.0",
+    "swagger-cli": "^1.0.0-beta.2"
+  }
+}

@@ -1,0 +1,10 @@
+{
+    "SQL": {
+        "ConnectionString": "Server=tcp:spChironv861uk.database.windows.net,1433;Initial Catalog=Chiron-stage;Persist Security Info=False;User ID=master;Password=!QAZ2wsx;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+    },
+    "Auth": {
+	"Provider": "http://localhost:41160",
+	"RequireHttpsMetadata": false,
+	"ApiName": "Catalogapi"
+    }
+}

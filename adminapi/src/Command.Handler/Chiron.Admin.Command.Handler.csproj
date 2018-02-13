@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Chiron.Admin.Command.Handler Class Library</Description>
+    <Authors>cort</Authors>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Chiron.Admin.Command.Handler</AssemblyName>
+    <PackageId>Chiron.Admin.Command.Handler</PackageId>
+
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Command.Data\Chiron.Admin.Command.Data.csproj" />
+    <ProjectReference Include="..\Command.Model\Chiron.Admin.Command.Model.csproj" />
+    <ProjectReference Include="..\Command\Chiron.Admin.Command.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+    <PackageReference Include="Serilog" Version="2.6.0" />
+    <PackageReference Include="Cortside.Common.Command" Version="1.0.1" />
+  </ItemGroup>
+
+</Project>

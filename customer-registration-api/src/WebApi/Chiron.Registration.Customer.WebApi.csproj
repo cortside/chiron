@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <AssemblyName>Chiron.Registration.Customer.WebApi</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <PackageId>Chiron.Registration.Customer.WebApi</PackageId>
+    <RuntimeIdentifiers>win10-x64;win81-x64</RuntimeIdentifiers>
+    <RootNamespace>Chiron.Registration.Customer.WebApi</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Logs\**" />
+    <Content Remove="Logs\**" />
+    <EmbeddedResource Remove="Logs\**" />
+    <None Remove="Logs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BootStrap\Chiron.Registration.Customer.BootStrap.csproj" />
+    <ProjectReference Include="..\Command\Chiron.Registration.Customer.Command.csproj" />
+    <ProjectReference Include="..\Query.Data\Chiron.Registration.Customer.Query.Data.csproj" />
+    <ProjectReference Include="..\Query\Chiron.Registration.Customer.Query.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="6.2.2" />
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.1" />
+    <PackageReference Include="Serilog.Extensions.Logging.File" Version="1.1.0" />
+    <PackageReference Include="Cortside.Common.Data.Exceptions" Version="1.0.1" />
+    <PackageReference Include="Cortside.Common.IoC" Version="1.0.1" />
+    <PackageReference Include="Cortside.Common.Web.Mvc" Version="1.0.1" />
+    <PackageReference Include="Serilog" Version="2.6.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
+  </ItemGroup>
+
+</Project>

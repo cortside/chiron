@@ -1,0 +1,34 @@
+{
+    "LaunchConfigurationName": "::cluster::", 
+    "ImageId": "", 
+            "KeyName": "aws",
+            "SecurityGroups": [
+                "sg-62448f05",
+                "sg-64Chirona703",
+                "sg-8b458eec",
+                "sg-be458ed9"
+            ],
+    "ClassicLinkVPCSecurityGroups": [
+    ], 
+    "UserData": "", 
+            "ImageId": "ami-7f820414",
+            "InstanceType": "t2.medium",
+            "BlockDeviceMappings": [
+                {
+                    "DeviceName": "/dev/xvda",
+                    "Ebs": {
+                        "DeleteOnTermination": true,
+                        "VolumeSize": 30,
+                        "VolumeType": "gp2"
+                    }
+                }
+            ],
+    "InstanceMonitoring": {
+        "Enabled": true
+    }, 
+            "IamInstanceProfile": "ecsInstanceRole",
+    "EbsOptimized": false, 
+    "AssociatePublicIpAddress": true
+}
+
+

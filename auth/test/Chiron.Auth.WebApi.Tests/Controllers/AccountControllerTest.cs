@@ -1,4 +1,7 @@
-﻿using Chiron.Auth.Controllers;
+﻿using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Chiron.Auth.Controllers;
 using Chiron.Auth.Data;
 using Chiron.Auth.Models;
 using Chiron.Auth.Services;
@@ -15,11 +18,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Chiron.Auth.Tests.Controllers {

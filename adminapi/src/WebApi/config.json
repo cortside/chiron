@@ -1,0 +1,10 @@
+{
+    "SQL": {
+        "ConnectionString": "Server=tcp:db,1433;Initial Catalog=chiron;Persist Security Info=False;User ID=sa;Password=Password1;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+    },
+    "Auth": {
+        "Provider": "http://auth:5000",
+        "RequireHttpsMetadata": false,
+        "ApiName": "adminapi"
+    }
+}

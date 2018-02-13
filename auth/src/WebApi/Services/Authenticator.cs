@@ -1,9 +1,6 @@
+using System.Threading.Tasks;
 using Chiron.Auth.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Chiron.Auth.Services {
     public class Authenticator : IAuthenticator {
