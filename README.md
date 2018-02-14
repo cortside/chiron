@@ -17,8 +17,8 @@ How to run:
 * Set HOSTS file entry for chiron.docker.local pointing to the docker host that this is running on (i.e. 127.0.0.1)
 * from PS shell, run ./build.ps1
 * use docker compose to start up all services
-** docker-compose.exe up -d
-* open broswer to http://chiron.docker.local/adminui
+    * docker-compose.exe up -d
+* open broswer to http://chiron.docker.local:8000/adminui
 
 There are 3 test users setup in the db with the following roles (all passwords are `test`:
 * test -> customer
