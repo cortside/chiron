@@ -17,8 +17,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cortside.Common.Data.Exceptions" Version="1.0.1" />
-    <PackageReference Include="Cortside.Common.IoC" Version="1.0.1" />
+    <PackageReference Include="Cortside.Common.Data.Exceptions" Version="1.0.5" />
+    <PackageReference Include="Cortside.Common.IoC" Version="1.0.5" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.0" />
