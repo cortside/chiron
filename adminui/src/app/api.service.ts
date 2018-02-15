@@ -15,28 +15,26 @@ export class ApiService {
     }
 
     getRestricted(): Promise<number[]> {
-
-	return this.authService.getUser()
-	    .then(user => {
-		if (user) {
-		    const url = `${this.apiUri}restricted`;
-		    let headers: Headers = new Headers();
-		    headers.append("Authorization", "Bearer " + user.access_token);
-		    let options: RequestOptionsArgs = {
-			headers: headers
-		    };
-		    return this.http.get(url, options)
-			.toPromise()
-			.then(response => response.json() as number[])
-			.catch(reason => { /* ??? */ });
-		} else {
-		    this.authService.signIn();
-		}
-	    });
-    }
+		return this.authService.getUser()
+			.then(user => {
+			if (user) {
+				const url = `${this.apiUri}restricted`;
+				let headers: Headers = new Headers();
+				headers.append("Authorization", "Bearer " + user.access_token);
+				let options: RequestOptionsArgs = {
+				headers: headers
+				};
+				return this.http.get(url, options)
+				.toPromise()
+				.then(response => response.json() as number[])
+				.catch(reason => { /* ??? */ });
+			} else {
+				this.authService.signIn();
+			}
+			});
+	}
 
     getAdmin(): Promise<number[]> {
-
 		return this.authService.getUser()
 			.then(user => {
 			if (user) {
@@ -57,7 +55,6 @@ export class ApiService {
 		}
 
 		getClerk(): Promise<number[]> {
-			
 			return this.authService.getUser()
 				.then(user => {
 				if (user) {
@@ -76,6 +73,26 @@ export class ApiService {
 				}
 				});
 			}
+
+			getOther(): Promise<number[]> {
+				return this.authService.getUser()
+					.then(user => {
+					if (user) {
+						const url = `${this.apiUri}other`;
+						let headers: Headers = new Headers();
+						headers.append("Authorization", "Bearer " + user.access_token);
+						let options: RequestOptionsArgs = {
+						headers: headers
+						};
+						return this.http.get(url, options)
+						.toPromise()
+						.then(response => response.json() as number[])
+						.catch(reason => { 403 /* show 403 for the error */ });
+					} else {
+						this.authService.signIn();
+					}
+					});
+				}
 				
     getUnrestricted(): Promise<any> {
 	const url = `${this.apiUri}settings`;

@@ -55,18 +55,9 @@ namespace Chiron.Admin.WebApi {
                 options.LowercaseUrls = true;
             });
 
-            // TODO: hack since InitIocContainer does not currently take IConfiguration
-            var config = new ConfigurationBuilder();
-            //.SetBasePath(env.ContentRootPath)
-            //.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-            //.AddJsonFile("config.json", true, true)
-            //.AddJsonFile("build.json", true, true)
-            //.AddEnvironmentVariables();
-            bootstrapper.InitIoCContainer(config, services);
-            DI.SetConfiguration(Configuration as IConfigurationRoot);
-            services.AddSingleton<IConfigurationRoot>(Configuration as IConfigurationRoot);
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-            var authConfig = DI.Configuration.GetSection("Auth");
+            var authConfig = Configuration.GetSection("Auth");
             services.AddAuthentication(options => {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -74,20 +65,22 @@ namespace Chiron.Admin.WebApi {
                 o.Authority = authConfig.GetValue<string>("Provider");
                 o.Audience = authConfig.GetValue<string>("ApiName");
                 o.RequireHttpsMetadata = authConfig.GetValue<bool>("RequireHttpsMetadata");
-                //o.TokenValidationParameters.RoleClaimType = "role";
+                o.TokenValidationParameters.RoleClaimType = "role";
+                o.TokenValidationParameters.NameClaimType = "name";
             });
 
-            services.AddAuthorization(options => {
-                options.AddPolicy("admin", policyBuilder => policyBuilder.RequireClaim("role", "admin"));
-            });
+            //services.AddAuthorization(options => {
+            //    options.AddPolicy("admin", policyBuilder => policyBuilder.RequireClaim("role", "admin"));
+            //});
+
+            services.AddPolicyServerClient(Configuration.GetSection("Policy"))
+                .AddAuthorizationPermissionPolicies();
+
+            bootstrapper.InitIoCContainer(Configuration as IConfigurationRoot, services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory) {
-            //loggerFactory.AddConsole(DI.Configuration.GetSection("Logging"));
-            //loggerFactory.AddFile("Logs/{Date}.txt");
-            //loggerFactory.AddDebug();
-
             app.UseCors("AllowAll");
 
             app.UseStaticFiles();
@@ -95,6 +88,8 @@ namespace Chiron.Admin.WebApi {
             app.UseGenericExceptionHandler().UseHttpException();
 
             app.UseAuthentication();
+            // this will map all of the policyserver defined roles and permissions to authorization policies
+            app.UsePolicyServerClaimsTransformation();
             app.UseMvc();
         }
     }

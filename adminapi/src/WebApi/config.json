@@ -6,5 +6,29 @@
         "Provider": "http://auth:5000",
         "RequireHttpsMetadata": false,
         "ApiName": "adminapi"
+    },
+    "Policy": {
+        "roles": [
+            {
+                "name": "other",
+                "identityRoles": [ "clerk" ],
+                "subjects": [ "3" ] //admin
+            },
+            {
+                "name": "sysadmin",
+                "identityRoles": [ "admin" ],
+                "subjects": [ "1" ] //system
+            }
+        ],
+        "permissions": [
+            {
+                "name": "DoOther",
+                "roles": [ "other", "admin" ]
+            },
+            {
+                "name": "DoDangerousStuff",
+                "roles": [ "sysadmin" ]
+            }
+        ]
     }
 }
