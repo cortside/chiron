@@ -17,6 +17,8 @@ init:
 install:
   - ps: docker login -u="$env:DOCKER_USER" -p="$env:DOCKER_PASS"
   - docker version
+  - node --version
+  - npm version
 
 build_script:
 - npm install -g bower
