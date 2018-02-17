@@ -19,6 +19,8 @@ install:
   - docker version
   - node --version
   - npm version
+  - ps: Install-Product node 8.9
+  - node --version
 
 build_script:
 - npm install -g bower
