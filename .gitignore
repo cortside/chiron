@@ -236,6 +236,5 @@ _Pvt_Extensions
 Logs/
 /src/c6.auth/config.json
 /src/c7.auth/wwwroot/lib
-*.css
 
 build.json
