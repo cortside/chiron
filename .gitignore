@@ -238,3 +238,4 @@ Logs/
 /src/c7.auth/wwwroot/lib
 
 build.json
+**/tempkey.rsa

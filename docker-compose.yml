@@ -66,24 +66,24 @@ services:
       - traefik.port=5001
      
       
-  customerui:  
-    image: cortside/chiron-customerui:local
-    ports:
-      - "5002:80"
-    depends_on:
-      - auth
-      - customer-registration-api
-      - db
-      - rabbitmq
-    links:
-      - auth
-      - customer-registration-api
-      - db
-      - rabbitmq
-    labels:
-      - "traefik.backend=customerui"
-      - "traefik.frontend.rule=Host:chiron.docker.local;PathPrefixStrip:/customer"    
-      - traefik.port=80
+#  customerui:  
+#    image: cortside/chiron-customerui:local
+#    ports:
+#      - "5002:80"
+#    depends_on:
+#      - auth
+#      - customer-registration-api
+#      - db
+#      - rabbitmq
+#    links:
+#      - auth
+#      - customer-registration-api
+#      - db
+#      - rabbitmq
+#    labels:
+#      - "traefik.backend=customerui"
+#      - "traefik.frontend.rule=Host:chiron.docker.local;PathPrefixStrip:/customer"    
+#      - traefik.port=80
 
 
   adminapi:  
@@ -124,7 +124,7 @@ services:
     ports:
       - "8000:80"
       - "8080:8080"
-    command: "/traefik --docker.endpoint=tcp://172.17.160.1:2375 --debug=true --loglevel=DEBUG --docker.watch=true --web.address=:8080"
+    command: "/traefik --docker.endpoint=tcp://172.16.0.1:2375 --debug=true --loglevel=DEBUG --docker.watch=true --web.address=:8080"
     labels:
       - traefik.enable=false
       
