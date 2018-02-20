@@ -1,4 +1,4 @@
-﻿using Chiron.Auth.Services;
+﻿using Chiron.Auth.WebApi.Services;
 using Xunit;
 
 namespace Chiron.Auth.Tests.Services {

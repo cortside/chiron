@@ -18,7 +18,7 @@ GO
 
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'auth' AND TABLE_NAME = 'user')
 CREATE TABLE [auth].[user] (
-	UserId Int IDENTITY(1,1) NOT NULL,
+	UserId uniqueidentifier NOT NULL CONSTRAINT DF_User_UserId DEFAULT NEWID(),
 	UserStatus VarChar(10) NULL,
 	Username VarChar(100) NOT NULL,
 	Password VarChar(100) NOT NULL,
@@ -32,23 +32,23 @@ CREATE TABLE [auth].[user] (
 	TokenExpiration DateTime NULL,
 	TermsOfUseAcceptanceDate DateTime NULL,
 	CreateDate DateTime NOT NULL,
-	CreateUserId Int NOT NULL,
+	CreateUserId uniqueidentifier NOT NULL,
 	LastModifiedDate DateTime NOT NULL,
-	LastModifiedUserId Int NOT NULL
+	LastModifiedUserId uniqueidentifier NOT NULL
 )
 GO
 
 if not exists(select * from information_schema.columns where TABLE_SCHEMA='auth' and table_name='User' and column_name='UserId')
   BEGIN
 	ALTER TABLE [auth].[user] ADD
-	    UserId Int IDENTITY(1,1) NOT NULL
+	    UserId uniqueidentifier NOT NULL
   END
 GO
 
 
 if exists(select * from information_schema.columns where TABLE_SCHEMA = 'auth' and table_name='user' and column_name='UserId') and not exists(select * from information_schema.columns where table_schema = 'auth' and table_name='user' and column_name='UserId' and is_nullable='NO')
   BEGIN
-	exec #spAlterColumn_User 'User', 'UserId', 'Int', 1
+	exec #spAlterColumn_User 'User', 'UserId', 'uniqueidentifier', 1
   END
 GO
 
@@ -241,13 +241,13 @@ GO
 if not exists(select * from information_schema.columns where TABLE_SCHEMA='auth' and table_name='User' and column_name='CreateUserId')
   BEGIN
 	ALTER TABLE [auth].[user] ADD
-		CreateUserId Int NOT NULL
+		CreateUserId uniqueidentifier NOT NULL
   END
 GO
 
 if exists(select * from information_schema.columns where TABLE_SCHEMA='auth' and table_name='User' and column_name='CreateUserId') and not exists(select * from information_schema.columns where TABLE_SCHEMA='auth' and table_name='User' and column_name='UserId' and data_type='int' and is_nullable='NO')
   BEGIN
-	exec #spAlterColumn_User 'User', 'CreateUserId', 'Int', 1
+	exec #spAlterColumn_User 'User', 'CreateUserId', 'uniqueidentifier', 1
   END
 GO
 
@@ -267,13 +267,13 @@ GO
 if not exists(select * from information_schema.columns where TABLE_SCHEMA='auth' and table_name='User' and column_name='LastModifiedUserId')
   BEGIN
 	ALTER TABLE [auth].[user] ADD
-		LastModifiedUserId Int NOT NULL
+		LastModifiedUserId uniqueidentifier NOT NULL
   END
 GO
 
 if exists(select * from information_schema.columns where TABLE_SCHEMA='auth' and table_name='User' and column_name='LastModifiedUserId') and not exists(select * from information_schema.columns where TABLE_SCHEMA='auth' and table_name='User' and column_name='LastModifiedUserId' and data_type='int' and is_nullable='NO')
   BEGIN
-	exec #spAlterColumn_User 'User', 'LastModifiedUserId', 'Int', 1
+	exec #spAlterColumn_User 'User', 'LastModifiedUserId', 'uniqueidentifier', 1
   END
 GO
 

@@ -2,7 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace Chiron.Auth.Data {
+namespace Chiron.Auth.WebApi.Data {
     public class UserDbContext : DbContext, IUserDbContext {
         public UserDbContext(DbContextOptions<UserDbContext> options) : base(options) { }
 

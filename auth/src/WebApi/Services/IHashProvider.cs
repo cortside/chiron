@@ -1,4 +1,4 @@
-﻿namespace Chiron.Auth.Services {
+﻿namespace Chiron.Auth.WebApi.Services {
     public interface IHashProvider {
         string ComputeHash(string theString);
     }

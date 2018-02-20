@@ -19,21 +19,21 @@ GO
 if not exists (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'auth' AND TABLE_NAME = 'UserRole')
 CREATE TABLE auth.UserRole (
 	RoleId Int NOT NULL,
-	UserId Int NOT NULL
+	UserId uniqueidentifier NOT NULL
 )
 GO
 
 if not exists(select * from information_schema.columns where TABLE_SCHEMA = 'auth' and table_name='UserRole' and column_name='RoleId')
   BEGIN
 	ALTER TABLE [auth].UserRole ADD
-	    RoleId Int NOT NULL
+	    RoleId uniqueidentifier NOT NULL
   END
 GO
 
 
 if exists(select * from information_schema.columns where TABLE_SCHEMA = 'auth' and table_name='UserRole' and column_name='RoleId') and not exists(select * from information_schema.columns where TABLE_SCHEMA = 'auth' and table_name='UserRole' and column_name='RoleId' and is_nullable='NO')
   BEGIN
-	exec #spAlterColumn_UserRole 'UserRole', 'RoleId', 'Int', 1
+	exec #spAlterColumn_UserRole 'UserRole', 'RoleId', 'uniqueidentifier', 1
   END
 GO
 
@@ -47,7 +47,7 @@ GO
 
 if exists(select * from information_schema.columns where TABLE_SCHEMA = 'auth' and table_name='UserRole' and column_name='UserId') and not exists(select * from information_schema.columns where TABLE_SCHEMA = 'auth' and table_name='UserRole' and column_name='UserId' and is_nullable='NO')
   BEGIN
-	exec #spAlterColumn_UserRole 'UserRole', 'UserId', 'Int', 1
+	exec #spAlterColumn_UserRole 'UserRole', 'UserId', 'uniqueidentifier', 1
   END
 GO
 

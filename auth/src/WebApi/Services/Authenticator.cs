@@ -1,8 +1,9 @@
 using System.Threading.Tasks;
 using Chiron.Auth.Data;
+using Chiron.Auth.WebApi.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Chiron.Auth.Services {
+namespace Chiron.Auth.WebApi.Services {
     public class Authenticator : IAuthenticator {
         readonly IUserDbContextFactory dbFactory;
         readonly IHashProvider hashProvider;

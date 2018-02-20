@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Chiron.Auth.Data {
+namespace Chiron.Auth.WebApi.Data {
     /// <summary>
     /// Interface for User DB Context.
     /// </summary>
