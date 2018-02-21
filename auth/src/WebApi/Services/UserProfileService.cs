@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using Chiron.Auth.Data;
 using Chiron.Auth.WebApi.Data;
+using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using Microsoft.EntityFrameworkCore;
@@ -60,12 +62,12 @@ namespace Chiron.Auth.WebApi.Services {
                 throw new InvalidOperationException("sub claim is missing.");
             }
 
-            //var userId = new Guid(sub.Value);
             var userId = sub.Value;
 
             var user = await ctx.Users
             .Include(x => x.UserRoles)
                 .ThenInclude(ur => ur.Role)
+            .Include(x => x.UserClaims)
             .FirstOrDefaultAsync(x => x.UserId.ToString() == userId);
             return user;
         }
@@ -76,12 +78,20 @@ namespace Chiron.Auth.WebApi.Services {
                 claims.Add(new Claim(type, value));
             };
 
-            addClaim("sub", user.UserId.ToString());
-            addClaim("name", user.Username);
+            if (!user.UserClaims.Any(x => x.Type == JwtClaimTypes.Subject)) {
+                addClaim(JwtClaimTypes.Subject, user.UserId.ToString());
+            }
+            if (!user.UserClaims.Any(x => x.Type == JwtClaimTypes.Name)) {
+                addClaim(JwtClaimTypes.Name, user.Username);
+            }
+
+            foreach (var uc in user.UserClaims ?? new List<UserClaim>()) {
+                addClaim(uc.Type, uc.Value);
+            }
 
             // TODO: doing this regardless to test
             foreach (var ur in user.UserRoles ?? new List<UserRole>()) {
-                addClaim("role", ur.Role.Name);
+                addClaim(JwtClaimTypes.Role, ur.Role.Name);
             }
 
             //if (requestedClaims != null) {

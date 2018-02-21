@@ -95,8 +95,8 @@ namespace Chiron.Auth.WebApi.Controllers.Account {
             // create a new unique subject id
             var sub = Guid.NewGuid();
 
-            // check if a display name is available, otherwise fallback to subject id
-            var name = filtered.FirstOrDefault(c => c.Type == JwtClaimTypes.Name)?.Value ?? sub.ToString();
+            // check if a 'upn' (User Principal Name) claim is available otherwise check if display name is available, otherwise fallback to subject id
+            var name = filtered.FirstOrDefault(c => c.Type == "upn")?.Value ?? filtered.FirstOrDefault(c => c.Type == JwtClaimTypes.Name)?.Value ?? sub.ToString();
 
             // create new user
             var user = new User {
@@ -120,6 +120,10 @@ namespace Chiron.Auth.WebApi.Controllers.Account {
             using (var ctx = contextFactory.NewUserDbContext()) {
                 //Probably not a great way of doing this, need a user for audit fields.
                 var theFirstUser = ctx.Users.OrderBy(x => x.UserId).First();
+                user.CreateUserId = theFirstUser.UserId;
+                user.LastModifiedUserId = theFirstUser.UserId;
+
+                /*
                 // TODO: get role(s) from groups
                 var roleName = "customer";
                 var role = ctx.Roles.FirstOrDefault(r => r.Name == roleName);
@@ -136,14 +140,24 @@ namespace Chiron.Auth.WebApi.Controllers.Account {
                     ctx.AddRole(role);
                 }
 
-                user.CreateUserId = theFirstUser.UserId;
-                user.LastModifiedUserId = theFirstUser.UserId;
                 user.UserRoles = new List<UserRole> {
                     new UserRole {
                         User = user,
                         Role = role
                     }
                 };
+                */
+
+                user.UserClaims = new List<UserClaim>();
+                foreach (var c in filtered) {
+                    var claim = new UserClaim() {
+                        UserId = user.UserId,
+                        ProviderName = provider,
+                        Type = c.Type,
+                        Value = c.Value
+                    };
+                    user.UserClaims.Add(claim);
+                }
 
                 ctx.AddUser(user);
                 ctx.SaveChanges();
