@@ -332,3 +332,9 @@ GO
 
 drop procedure #spAlterColumn_User
 GO
+
+
+-- TODO: script these better
+ALTER TABLE [auth].[user] ADD ProviderName varchar(50) NULL
+ALTER TABLE [auth].[user] ADD ProviderSubjectId varchar(250) NULL
+

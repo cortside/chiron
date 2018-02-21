@@ -11,6 +11,7 @@ namespace Chiron.Auth.WebApi.Data {
         void AddRole(Role role);
 
         Task SaveChangesAsync();
+        void SaveChanges();
 
         IQueryable<User> Users { get; }
         IQueryable<Role> Roles { get; }

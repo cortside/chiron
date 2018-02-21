@@ -42,5 +42,9 @@ namespace Chiron.Auth.WebApi.Data {
         public async Task SaveChangesAsync() {
             await base.SaveChangesAsync();
         }
+
+        public void SaveChanges() {
+            base.SaveChanges();
+        }
     }
 }

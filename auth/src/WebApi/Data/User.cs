@@ -20,5 +20,7 @@ namespace Chiron.Auth.WebApi.Data {
         public DateTime LastModifiedDate { set; get; }
 
         public ICollection<UserRole> UserRoles { get; set; } //This should be Roles, not UserRoles, but EFCore cannot handle this right now.
+        public string ProviderName { get; internal set; }
+        public string ProviderSubjectId { get; internal set; }
     }
 }

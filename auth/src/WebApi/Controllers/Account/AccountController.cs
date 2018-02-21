@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using Chiron.Auth.WebApi.Data;
 using Chiron.Auth.WebApi.Services;
 using IdentityModel;
 using IdentityServer4.Events;
@@ -26,7 +27,9 @@ namespace Chiron.Auth.WebApi.Controllers.Account {
     /// </summary>
     [SecurityHeaders]
     public class AccountController : Controller {
-        private readonly TestUserStore _users;
+        private readonly UserService userService;
+
+        //private readonly TestUserStore _users;
         private readonly IEventService _events;
         private readonly AccountService _account;
 
@@ -36,9 +39,11 @@ namespace Chiron.Auth.WebApi.Controllers.Account {
         readonly ILogger<AccountController> logger;
 
         public AccountController(IAuthenticator authenticator, IIdentityServerInteractionService idsService, IConfigurationRoot config, ILogger<AccountController> logger,
-                                    IClientStore clientStore, IHttpContextAccessor httpContextAccessor, IAuthenticationSchemeProvider schemeProvider, IEventService events, TestUserStore users = null) {
+                                    IClientStore clientStore, IHttpContextAccessor httpContextAccessor, IAuthenticationSchemeProvider schemeProvider, IEventService events, IUserDbContextFactory contextFactory) { //, TestUserStore users = null) {
             // if the TestUserStore is not in DI, then we'll just use the global users collection
-            _users = users ?? new TestUserStore(TestUsers.Users);
+            //_users = users ?? new TestUserStore(TestUsers.Users);
+            // TODO: this needs to be injected and needs to have an interface
+            this.userService = new UserService(contextFactory, logger);
             _events = events;
 
             this.authenticator = authenticator;
@@ -211,16 +216,16 @@ namespace Chiron.Auth.WebApi.Controllers.Account {
             // external provider's authentication result, and provision the user as you see fit.
             // 
             // check if the external user is already provisioned
-            var user = _users.FindByExternalProvider(provider, userId);
+            var user = userService.FindByExternalProvider(provider, userId);
             if (user == null) {
                 // this sample simply auto-provisions new external user
                 // another common approach is to start a registrations workflow first
-                user = _users.AutoProvisionUser(provider, userId, claims);
+                user = userService.AutoProvisionUser(provider, userId, claims);
             }
 
             // remove 'name' claim issued by idsrv
-            user.Claims.Remove(user.Claims
-                .SingleOrDefault(c => c.Type.Equals("name") && c.Issuer.Equals("LOCAL AUTHORITY")));
+            //user.Claims.Remove(user.Claims
+            //    .SingleOrDefault(c => c.Type.Equals("name") && c.Issuer.Equals("LOCAL AUTHORITY")));
 
             var additionalClaims = new List<Claim>();
 
@@ -240,8 +245,8 @@ namespace Chiron.Auth.WebApi.Controllers.Account {
             }
 
             // issue authentication cookie for user
-            await _events.RaiseAsync(new UserLoginSuccessEvent(provider, userId, user.SubjectId, user.Username));
-            await HttpContext.SignInAsync(user.SubjectId, user.Username, provider, props, additionalClaims.ToArray());
+            await _events.RaiseAsync(new UserLoginSuccessEvent(provider, userId, user.UserId.ToString(), user.Username));
+            await HttpContext.SignInAsync(user.UserId.ToString(), user.Username, provider, props, additionalClaims.ToArray());
 
             // delete temporary cookie used during external authentication
             await HttpContext.SignOutAsync(IdentityServer4.IdentityServerConstants.ExternalCookieAuthenticationScheme);
