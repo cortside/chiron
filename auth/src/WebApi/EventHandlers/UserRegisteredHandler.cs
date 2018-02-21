@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Chiron.Auth.Data;
+using Chiron.Auth.WebApi.Data;
 using Cortside.Common.DomainEvent;
 using Microsoft.Extensions.Logging;
 
-namespace Chiron.Auth.EventHandlers {
+namespace Chiron.Auth.WebApi.EventHandlers {
     public class UserRegisteredHandler : IDomainEventHandler<UserRegisteredEvent> {
         private readonly ILogger<UserRegisteredHandler> logger;
         private readonly IUserDbContextFactory contextFactory;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Chiron.Auth.EventHandlers {
+namespace Chiron.Auth.WebApi.EventHandlers {
     public class UserRegisteredEvent {
         public string FirstName { set; get; }
         public string LastName { set; get; }

@@ -2,7 +2,7 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Chiron.Auth.Models {
+namespace Chiron.Auth.WebApi.Models {
     public class SettingsModel {
         public string Deployment { get; set; }
         public string App { get; set; }

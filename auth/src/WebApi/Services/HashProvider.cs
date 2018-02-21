@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Chiron.Auth.Services {
+namespace Chiron.Auth.WebApi.Services {
     public class HashProvider : IHashProvider {
         public string ComputeHash(string theString) {
             var x = SHA512.Create();

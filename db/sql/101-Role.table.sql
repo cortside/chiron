@@ -22,9 +22,9 @@ CREATE TABLE [auth].[Role] (
 	Name VarChar(50) NOT NULL,
 	Description VarChar(4000) NOT NULL,
 	CreateDate DateTime NOT NULL,
-	CreateUserId Int NOT NULL,
+	CreateUserId uniqueidentifier NOT NULL,
 	LastModifiedDate DateTime NOT NULL,
-	LastModifiedUserId Int NOT NULL
+	LastModifiedUserId uniqueidentifier NOT NULL
 
 )
 GO
@@ -74,13 +74,13 @@ GO
 if not exists(select * from information_schema.columns where TABLE_SCHEMA='auth' and table_name='Role' and column_name='CreateUserId')
   BEGIN
 	ALTER TABLE [auth].[Role] ADD
-		CreateUserId Int NOT NULL
+		CreateUserId uniqueidentifier NOT NULL
   END
 GO
 
-if exists(select * from information_schema.columns where TABLE_SCHEMA='auth' and table_name='Role' and column_name='CreateUserId') and not exists(select * from information_schema.columns where TABLE_SCHEMA='auth' and table_name='Role' and column_name='UserId' and data_type='int' and is_nullable='NO')
+if exists(select * from information_schema.columns where TABLE_SCHEMA='auth' and table_name='Role' and column_name='CreateUserId') and not exists(select * from information_schema.columns where TABLE_SCHEMA='auth' and table_name='Role' and column_name='UserId' and data_type='uniqueidentifier' and is_nullable='NO')
   BEGIN
-	exec #spAlterColumn_Role 'Role', 'CreateUserId', 'Int', 1
+	exec #spAlterColumn_Role 'Role', 'CreateUserId', 'uniqueidentifier', 1
   END
 GO
 
@@ -100,13 +100,13 @@ GO
 if not exists(select * from information_schema.columns where TABLE_SCHEMA='auth' and table_name='Role' and column_name='LastModifiedUserId')
   BEGIN
 	ALTER TABLE [auth].[Role] ADD
-		LastModifiedUserId Int NOT NULL
+		LastModifiedUserId uniqueidentifier NOT NULL
   END
 GO
 
-if exists(select * from information_schema.columns where TABLE_SCHEMA='auth' and table_name='Role' and column_name='LastModifiedUserId') and not exists(select * from information_schema.columns where TABLE_SCHEMA='auth' and table_name='Role' and column_name='LastModifiedUserId' and data_type='int' and is_nullable='NO')
+if exists(select * from information_schema.columns where TABLE_SCHEMA='auth' and table_name='Role' and column_name='LastModifiedUserId') and not exists(select * from information_schema.columns where TABLE_SCHEMA='auth' and table_name='Role' and column_name='LastModifiedUserId' and data_type='uniqueidentifier' and is_nullable='NO')
   BEGIN
-	exec #spAlterColumn_Role 'Role', 'LastModifiedUserId', 'Int', 1
+	exec #spAlterColumn_Role 'Role', 'LastModifiedUserId', 'uniqueidentifier', 1
   END
 GO
 

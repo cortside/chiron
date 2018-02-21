@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Chiron.Auth.Data {
+namespace Chiron.Auth.WebApi.Data {
     public class UserDbContextFactory : IUserDbContextFactory {
         readonly IServiceProvider serviceProvider;
 

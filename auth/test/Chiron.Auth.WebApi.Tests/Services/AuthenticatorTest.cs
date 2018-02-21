@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Chiron.Auth.Data;
-using Chiron.Auth.Services;
+using Chiron.Auth.WebApi.Data;
+using Chiron.Auth.WebApi.Services;
 using Moq;
 using Xunit;
 

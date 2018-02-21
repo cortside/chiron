@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Chiron.Auth.Data;
-using Chiron.Auth.EventHandlers;
-using Chiron.Auth.Services;
+using Chiron.Auth.WebApi.Data;
+using Chiron.Auth.WebApi.EventHandlers;
+using Chiron.Auth.WebApi.Services;
 using Cortside.Common.DomainEvent;
+using IdentityServer4;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.AspNetCore.Builder;
@@ -17,6 +19,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Chiron.Auth.WebApi {
     public class Startup {
@@ -130,6 +133,20 @@ namespace Chiron.Auth.WebApi {
                     //options.EnableTokenCleanup = true;
                     //options.TokenCleanupInterval = 30;
                 });
+
+            services.AddAuthentication()
+            .AddOpenIdConnect("AAD", "Azure Active Directory", options => {
+                options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+                options.SignOutScheme = IdentityServerConstants.SignoutScheme;
+                options.Authority = "https://login.microsoftonline.com/common";
+                options.ClientId = "d0abb606-ebd5-4939-903f-f2c702ff40b0";
+                options.Scope.Add("openid");
+                options.Scope.Add("profile");
+                options.TokenValidationParameters = new TokenValidationParameters {
+                    ValidateIssuer = false
+                };
+                options.GetClaimsFromUserInfoEndpoint = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -169,18 +186,19 @@ namespace Chiron.Auth.WebApi {
             };
             fordwardedHeaderOptions.KnownNetworks.Clear();
             fordwardedHeaderOptions.KnownProxies.Clear();
-
             app.UseForwardedHeaders(fordwardedHeaderOptions);
 
             app
                 .UseStaticFiles()
                 .UseIdentityServer()
+                .UseAuthentication()
                 .UseMvc(routes => {
                     routes.MapRoute(
                         name: "default",
                         template: "{controller=Home}/{action=Index}/{id?}");
                 });
 
+            // message consumer for registered users
             var eventTypeLookup = RegisterMessageTypes();
             var receiver = ServiceProvider.GetService<IDomainEventReceiver>();
             receiver.Receive(eventTypeLookup);

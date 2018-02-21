@@ -2,32 +2,36 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace Chiron.Auth.Data {
+namespace Chiron.Auth.WebApi.Data {
     public class UserDbContext : DbContext, IUserDbContext {
         public UserDbContext(DbContextOptions<UserDbContext> options) : base(options) { }
 
         //TODO: Move these registrations into their own mapping classes as in prior versions of EF.
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.HasDefaultSchema("auth");
-            modelBuilder
-            .Entity<User>(x => { x.ToTable("User"); });
-            modelBuilder
-             .Entity<Role>(x => { x.ToTable("Role"); });
-            modelBuilder
-            .Entity<UserRole>(x => {
+            modelBuilder.Entity<User>(x => { x.ToTable("User"); });
+            modelBuilder.Entity<Role>(x => { x.ToTable("Role"); });
+            modelBuilder.Entity<UserRole>(x => {
                 x.ToTable("UserRole").HasKey(ur => new { ur.UserId, ur.RoleId });
                 x.HasOne(ur => ur.User)
-                .WithMany(u => u.UserRoles)
-                .HasForeignKey(ur => ur.UserId);
+                    .WithMany(u => u.UserRoles)
+                    .HasForeignKey(ur => ur.UserId);
                 x.HasOne(ur => ur.Role)
-                .WithMany(r => r.UserRoles)
-                .HasForeignKey(ur => ur.RoleId);
+                    .WithMany(r => r.UserRoles)
+                    .HasForeignKey(ur => ur.RoleId);
+            });
+            modelBuilder.Entity<UserClaim>(x => {
+                x.ToTable("UserClaim").HasKey(uc => uc.UserClaimId);
+                x.HasOne(ur => ur.User)
+                    .WithMany(u => u.UserClaims)
+                    .HasForeignKey(ur => ur.UserId);
             });
         }
 
         public DbSet<User> Users { set; get; }
         public DbSet<Role> Roles { set; get; }
         public DbSet<UserRole> UserRoles { set; get; }
+        public DbSet<UserClaim> UserClaims { set; get; }
         IQueryable<User> IUserDbContext.Users { get { return Users; } }
         IQueryable<Role> IUserDbContext.Roles { get { return Roles; } }
 
@@ -41,6 +45,10 @@ namespace Chiron.Auth.Data {
 
         public async Task SaveChangesAsync() {
             await base.SaveChangesAsync();
+        }
+
+        public void SaveChanges() {
+            base.SaveChanges();
         }
     }
 }

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace Chiron.Auth.Data {
+namespace Chiron.Auth.WebApi.Data {
     public class User {
-        public int UserId { set; get; }
+        public Guid UserId { set; get; }
         public string Username { set; get; }
         public string Password { set; get; }
         public string Salt { set; get; }
@@ -14,11 +14,14 @@ namespace Chiron.Auth.Data {
         public string LastLoginIPAddress { set; get; }
         public DateTime TermsOfUseAcceptanceDate { get; set; }
 
-        public int CreateUserId { set; get; }
+        public Guid CreateUserId { set; get; }
         public DateTime CreateDate { set; get; }
-        public int LastModifiedUserId { set; get; }
+        public Guid LastModifiedUserId { set; get; }
         public DateTime LastModifiedDate { set; get; }
 
         public ICollection<UserRole> UserRoles { get; set; } //This should be Roles, not UserRoles, but EFCore cannot handle this right now.
+        public string ProviderName { get; internal set; }
+        public string ProviderSubjectId { get; internal set; }
+        public ICollection<UserClaim> UserClaims { get; set; }
     }
 }

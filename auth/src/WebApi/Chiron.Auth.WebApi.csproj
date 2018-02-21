@@ -1,66 +1,70 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-    <PropertyGroup>
-	<TargetFramework>netcoreapp2.0</TargetFramework>
-	<PreserveCompilationContext>true</PreserveCompilationContext>
-	<AssemblyName>Chiron.Auth.WebApi</AssemblyName>
-	<OutputType>Exe</OutputType>
-	<PackageId>c6.auth</PackageId>
-	<RootNamespace>Chiron.Auth.WebApi</RootNamespace>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <AssemblyName>Chiron.Auth.WebApi</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <PackageId>c6.auth</PackageId>
+    <RootNamespace>Chiron.Auth.WebApi</RootNamespace>
+  </PropertyGroup>
 
-    <ItemGroup>
-	<None Update="wwwroot\**\*">
-	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-	</None>
-    </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Logs\**" />
+    <Content Remove="Logs\**" />
+    <EmbeddedResource Remove="Logs\**" />
+    <None Remove="Logs\**" />
+  </ItemGroup>
 
-    <ItemGroup>
-	<PackageReference Include="Cortside.Common.DomainEvent" Version="1.0.1" />
-	<PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.0.1" />
-	<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1">
-	    <PrivateAssets>All</PrivateAssets>
-	</PackageReference>
-	<PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.0.1" />
-	<PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.0.1" />
-	<PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.1" />
-	<PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.0" />
-	<PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.0.0" />
-	<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
-	<PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0" />
-	<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.0" />
-	<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
-	<PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.2" />
-	<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.0" />
-	<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
-	<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.5" />
-	<PackageReference Include="Identityserver4.AspNetIdentity" Version="2.1.0" />
-	<PackageReference Include="IdentityServer4.EntityFramework" Version="2.1.1" />
-	<PackageReference Include="BundlerMinifier.Core" Version="2.6.362" />
-	<PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.2" />
-	<PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.0.1" />
-	<PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.1" />
-	<PackageReference Include="Serilog" Version="2.6.0" />
-	<PackageReference Include="Serilog.AspNetCore" Version="2.1.0" />
-	<PackageReference Include="Serilog.Extensions.Logging.File" Version="1.1.0" />
-	<PackageReference Include="Serilog.Settings.Configuration" Version="2.4.0" />
-	<PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
-    </ItemGroup>
+  <ItemGroup>
+    <None Update="wwwroot\**\*">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
 
-    <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
-	<Exec Command="bower install" />
-	<Exec Command="dotnet bundle" />
-    </Target>
+  <ItemGroup>
+    <PackageReference Include="Cortside.Common.DomainEvent" Version="1.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.5" />
+    <PackageReference Include="Identityserver4.AspNetIdentity" Version="2.1.0" />
+    <PackageReference Include="IdentityServer4.EntityFramework" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.1" />
+    <PackageReference Include="Serilog" Version="2.6.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="2.1.0" />
+    <PackageReference Include="Serilog.Extensions.Logging.File" Version="1.1.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="2.5.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+  </ItemGroup>
 
-    <ItemGroup>
-	<DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.4.337" />
-	<DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
-	<DotNetCliToolReference Include="dotnet-version" Version="1.1.0" />
-    </ItemGroup>
+  <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
+    <Exec Command="dotnet bundle" />
+  </Target>
 
-    <ItemGroup>
-      <Folder Include="Logs\" />
-      <Folder Include="wwwroot\scripts\" />
-    </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.4.337" />
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
+    <DotNetCliToolReference Include="dotnet-version" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\scripts\" />
+  </ItemGroup>
 
 </Project>

@@ -1,6 +1,10 @@
 ﻿<div *ngIf="user">
     Hello, {{user?.profile?.name}}
 </div>
+<div *ngIf="user">
+    <h3>Identity Token</h3>
+    <pre>{{user?.id_token}}</pre>
+</div>
 <div *ngIf="!user">
     Not logged in.
 </div>

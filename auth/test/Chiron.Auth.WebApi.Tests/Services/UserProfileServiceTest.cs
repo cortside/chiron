@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Chiron.Auth.Data;
-using Chiron.Auth.Services;
+using Chiron.Auth.WebApi.Data;
+using Chiron.Auth.WebApi.Services;
 using IdentityServer4.Models;
 using Moq;
 using Xunit;

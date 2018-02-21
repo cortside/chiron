@@ -31,3 +31,10 @@ There are 3 test users setup in the db with the following roles (all passwords a
 * test -> customer
 * clerk -> clerk
 * admin -> admin
+
+
+ToDo items:
+* external user claims are not updated in UserClaim
+* logout redirect is either not configured right or is not working
+* admin ui should show when a page (or better said, api for page) is forbidden (403)
+* show claims from both ui perspective and adminapi perspective on user page 

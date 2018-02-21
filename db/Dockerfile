@@ -31,6 +31,7 @@ RUN mkdir c:/MSSQL; \
 	sqlcmd -d chiron -i c:\\sql\\100-User.table.sql; \
 	sqlcmd -d chiron -i c:\\sql\\101-Role.table.sql; \
 	sqlcmd -d chiron -i c:\\sql\\102-UserRole.table.sql; \
+	sqlcmd -d chiron -i c:\\sql\\103-UserClaim.table.sql; \
 	sqlcmd -d chiron -i c:\\sql\\999-Auth-SeedData.data.sql; \
 	sqlcmd -d chiron -i c:\\sql\\000-Catalog.schema.sql; \
 	sqlcmd -d chiron -i c:\\sql\\001-Item.table.sql; \

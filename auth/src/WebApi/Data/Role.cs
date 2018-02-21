@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Chiron.Auth.Data {
+namespace Chiron.Auth.WebApi.Data {
     public class Role {
         public int RoleId { set; get; }
         public string Name { set; get; }
         public string Description { set; get; }
         public ICollection<UserRole> UserRoles { get; set; }
 
-        public int CreateUserId { set; get; }
+        public Guid CreateUserId { set; get; }
         public DateTime CreateDate { set; get; }
-        public int LastModifiedUserId { set; get; }
+        public Guid LastModifiedUserId { set; get; }
         public DateTime LastModifiedDate { set; get; }
     }
 }
