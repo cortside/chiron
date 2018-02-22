@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Chiron.Auth.Data;
 using Chiron.Auth.WebApi.Data;
 using Chiron.Auth.WebApi.EventHandlers;
 using Chiron.Auth.WebApi.Services;
@@ -152,15 +151,6 @@ namespace Chiron.Auth.WebApi {
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory) {
             var logger = loggerFactory.CreateLogger<Startup>();
-            //InitializeDatabase(app);
-
-            //var serilog = new LoggerConfiguration()
-            //            .MinimumLevel.Verbose()
-            //            .Enrich.FromLogContext()
-            //            .WriteTo.File(@"identityserver4_log.log");
-
-            //serilog.WriteTo.Console(outputTemplate: "[{Timestamp:o} {Level}] {SourceContext} - {Message}{NewLine}{Exception}{NewLine}");
-
 
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
@@ -175,7 +165,6 @@ namespace Chiron.Auth.WebApi {
                 if (!StringValues.IsNullOrEmpty(prefix)) {
                     logger.LogInformation($"X-Forwarded-Prefix={prefix}, Path={context.Request.Path}");
                     context.Request.PathBase = PathString.FromUriComponent(prefix.ToString());
-                    // TODO: subtract PathBase from Path if needed.
                 }
                 return next();
             });
@@ -202,43 +191,6 @@ namespace Chiron.Auth.WebApi {
             var eventTypeLookup = RegisterMessageTypes();
             var receiver = ServiceProvider.GetService<IDomainEventReceiver>();
             receiver.Receive(eventTypeLookup);
-        }
-
-        private void InitializeDatabase(IApplicationBuilder app) {
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope()) {
-                serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
-                serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>().Database.Migrate();
-
-                var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
-                context.Database.Migrate();
-                if (!context.Clients.Any()) {
-                    foreach (var client in Config.GetClients()) {
-                        context.Clients.Add(client.ToEntity());
-                    }
-                    context.SaveChanges();
-                }
-
-                if (!context.IdentityResources.Any()) {
-                    foreach (var resource in Config.GetIdentityResources()) {
-                        context.IdentityResources.Add(resource.ToEntity());
-                    }
-                    context.SaveChanges();
-                }
-
-                if (!context.ApiResources.Any()) {
-                    foreach (var resource in Config.GetApiResources()) {
-                        context.ApiResources.Add(resource.ToEntity());
-                    }
-                    context.SaveChanges();
-                }
-            }
-        }
-
-        private void MigrateDatabase(IApplicationBuilder app) {
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope()) {
-                serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
-                serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>().Database.Migrate();
-            }
         }
     }
 }

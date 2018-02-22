@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Chiron.Auth.Data;
 using Chiron.Auth.WebApi.Data;
 using Cortside.Common.DomainEvent;
 using Microsoft.Extensions.Logging;

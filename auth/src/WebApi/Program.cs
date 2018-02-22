@@ -37,7 +37,6 @@ namespace Chiron.Auth.WebApi {
                 .Enrich.WithProperty("build-tag", build.Tag)
                 .CreateLogger();
 
-
             try {
                 Log.Information("Starting web host");
 

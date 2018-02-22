@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Chiron.Auth.Data;
 using Chiron.Auth.WebApi.Data;
 using Microsoft.EntityFrameworkCore;
 

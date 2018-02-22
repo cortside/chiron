@@ -4,7 +4,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
-using Chiron.Auth.Data;
 using Chiron.Auth.WebApi.Data;
 using IdentityModel;
 using IdentityServer4.Models;
