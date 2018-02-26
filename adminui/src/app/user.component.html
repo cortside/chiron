@@ -3,7 +3,10 @@
 </div>
 <div *ngIf="user">
     <h3>Identity Token</h3>
-    <pre>{{user?.id_token}}</pre>
+    <pre><code></code>{{user?.id_token}}</code></pre>
+    <h3>Access Token</h3>
+    <pre><code>{{user?.access_token}}</code></pre>
+    
 </div>
 <div *ngIf="!user">
     Not logged in.
